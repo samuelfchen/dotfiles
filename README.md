@@ -1,3 +1,6 @@
+# Pre-requisites
+`zsh`, `neovim`, `tmux`
+
 # Setup
 
 ```
