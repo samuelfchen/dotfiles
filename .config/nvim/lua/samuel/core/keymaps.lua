@@ -14,6 +14,7 @@ keymap.set("n", "<leader><CR>", "<cmd>lua ReloadConfig()<CR>", { noremap = true,
 -- use jk to exit insert mode
 keymap.set("i", "kj", "<ESC>")
 keymap.set("n", "kj", "<ESC>")
+keymap.set("v", "kj", "<ESC>")
 
 -- exit which-key
 keymap.set("n", "<leader><leader>", "<ESC>")
