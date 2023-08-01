@@ -1,0 +1,13 @@
+# 
+# Aliases
+# 
+
+alias vim=nvim
+alias g=git
+alias ls='ls -a --color=auto'
+alias ll='ls -lash'
+alias cl='clear'
+alias sa='source ~/.zshrc && exit'
+
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
