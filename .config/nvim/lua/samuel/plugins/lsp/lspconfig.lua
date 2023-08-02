@@ -18,6 +18,8 @@ end
 
 local keymap = vim.keymap -- for conciseness
 
+vim.lsp.set_log_level("debug")
+
 -- enable keybinds only for when lsp server available
 local on_attach = function(client, bufnr)
   -- keybind options
@@ -125,3 +127,4 @@ lspconfig["lua_ls"].setup({
     },
   },
 })
+
