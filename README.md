@@ -1,5 +1,5 @@
 ## Pre-requisites
-`zsh`, `neovim`, `tmux`
+`zsh`, `neovim`, `tmux`, `fd`
 
 ## Setup
 
