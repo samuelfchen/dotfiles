@@ -13,8 +13,13 @@ end
 -- configure telescope
 telescope.setup({
   -- configure custom mappings
+  pickers = {
+    find_files = {
+      hidden = true
+    },
+  },
   defaults = {
-    file_ignore_patterns = { "node%_modules/.*" },
+    file_ignore_patterns = { "node%_modules/.*", ".git/"},
     path_display = { "truncate" },
     mappings = {
       i = {

@@ -45,6 +45,8 @@ return packer.startup(function(use)
 
   -- commenting with gc
   use("numToStr/Comment.nvim")
+  use("JoosepAlviste/nvim-ts-context-commentstring")
+
 
   -- file explorer
   use("nvim-tree/nvim-tree.lua")
@@ -106,7 +108,7 @@ return packer.startup(function(use)
     "folke/which-key.nvim",
     config = function()
       vim.o.timeout = true
-      vim.o.timeoutlen = 100
+      vim.o.timeoutlen = 300
       require("which-key").setup {
         -- your configuration comes here
         -- or leave it empty to use the default settings
@@ -117,9 +119,18 @@ return packer.startup(function(use)
 
   -- git 
   use("lewis6991/gitsigns.nvim")
-  use("dinhhuy258/git.nvim")
+  -- use("dinhhuy258/git.nvim")
+  use("tpope/vim-fugitive")
+  use("rbong/vim-flog")
+  use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+    require('git-conflict').setup()
+  end}
+
 
   -- prettier
   use('jose-elias-alvarez/null-ls.nvim')
   use('MunifTanjim/prettier.nvim')
+
+  -- auto-bracket
+  use("m4xshen/autoclose.nvim")
 end)

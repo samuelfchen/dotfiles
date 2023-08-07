@@ -18,6 +18,7 @@ keymap.set("v", "kj", "<ESC>")
 
 -- exit which-key
 keymap.set("n", "<leader><leader>", "<ESC>")
+keymap.set("n", "<leader>kj", "<ESC>")
 
 -- clear search highlights
 keymap.set("n", "<leader>nn", ":nohl<CR>")
@@ -75,3 +76,7 @@ keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available 
 
 -- prettier
 keymap.set("n", "<leader>p", "<cmd>Prettier<cr>") -- list available help tags
+
+-- git
+keymap.set("n", "<leader>gg", "<cmd>Git<cr>")
+keymap.set("n", "<leader>gd", "<cmd>Gvdiff<cr>")
