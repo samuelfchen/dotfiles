@@ -17,6 +17,7 @@ telescope.setup({
     find_files = {
       hidden = true
     },
+    -- https://www.reddit.com/r/neovim/comments/13fuazn/lsp_references_in_telescope/
     lsp_references = { fname_width = 100, },
   },
   defaults = {
