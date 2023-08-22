@@ -3,6 +3,21 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
+
+-- Utility function to get visual selection
+function vim.getVisualSelection()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
+
 ---------------------
 -- General Keymaps
 ---------------------
@@ -34,7 +49,7 @@ keymap.set("n", "<leader>-", "<C-x>") -- decrement
 keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-keymap.set("n", "<leader>sx", ":close<CR>") -- close current split window
+keymap.set("n", "<leader>sc", ":close<CR>") -- close current split window
 
 keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
 keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
@@ -48,7 +63,7 @@ keymap.set("n", "H", ":bprev<CR>") -- prev buffer
 
 -- repeat colon commands
 keymap.set("n", "<leader>r", "@:") -- repeat last colon command
-keymap.set("n", "<leader>R", "@:") -- repeat last colon command
+-- keymap.set("n", "<leader>R", "@:") -- repeat last colon command
 
 -- save and close
 keymap.set("n", "<leader>w", ":update<cr>")
@@ -73,6 +88,7 @@ keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in 
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
+keymap.set("n", "<leader>fr", "<cmd>Telescope lsp_references<cr>") -- list available help tags
 
 -- prettier
 keymap.set("n", "<leader>p", "<cmd>Prettier<cr>") -- list available help tags

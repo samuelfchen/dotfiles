@@ -17,6 +17,7 @@ telescope.setup({
     find_files = {
       hidden = true
     },
+    lsp_references = { fname_width = 100, },
   },
   defaults = {
     file_ignore_patterns = { "node%_modules/.*", ".git/"},
