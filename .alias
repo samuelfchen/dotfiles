@@ -12,10 +12,7 @@ alias sa='source ~/.zshrc && exit'
 
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-
-sa() {
-  source ~/.aliases
-}
+alias sa='source ~/.alias'
 
 # setup tput
 bold=$(tput bold)
