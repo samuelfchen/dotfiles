@@ -1,0 +1,277 @@
+echo "\n\n\nSourcing aliases...\n\n"
+
+sa() {
+  source ~/.aliases
+}
+
+# setup tput
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+# custom aliases
+export WEBAPP_DIR=/sandbox/samuel.chen/UI/webapp
+export KUBE_WEBAPPS_DIR=/sandbox/samuel.chen/UI/kube-webapps
+
+# ignore certain directories in fzf
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/*" -g "!*node_modules*"'
+
+alias ls='ls --color=auto'
+alias lash='ls --color=auto -lash'
+
+alias c=code
+
+find-webapp-path() {
+  if [ ! -z "$@" ]; then;  
+    ls -d $WEBAPP_DIR/* | fzf --query="$@" --select-1;
+  else;
+    ls -d $WEBAPP_DIR/* | fzf;
+  fi;
+};
+
+fast-fzf() {
+  if [ ! -z "${@:2}" ]; 
+  then;  
+    fzf --prompt="$1" --query="${@:2}" --select-1;
+  else;
+    fzf --prompt="$1";
+  fi;
+}
+
+find-webapp-name() {
+  if [ ! -z "$@" ]; 
+  then;  
+    find $WEBAPP_DIR -maxdepth 1 -type d -exec basename {} \; | fzf --query="$@" --select-1;
+  else;
+    find $WEBAPP_DIR -maxdepth 1 -type d -exec basename {} \; | fzf;
+  fi;
+}
+
+
+gw() { local d=$(find-webapp-path $@); [ ! -z "$d" ] && cd $d }
+cw() { local d=$(find-webapp-path $@); [ ! -z "$d" ] && code $d }
+
+
+conda-activate() {
+  if [ -z "$1" ];
+    then readonly args=$(basename "$PWD");
+    else readonly args=$1;
+  fi;
+
+  conda activate $args
+}
+alias ca=conda-activate
+
+alias dc='docker-compose'
+
+work() {
+  local target=$(ls /sandbox/samuel.chen/workspaces | fast-fzf "Select a workspace" $@)
+  if [ ! -z "$target" ]; then; 
+    code "/sandbox/samuel.chen/workspaces/$target";
+  fi;
+}
+
+docker-logs() {
+  # get image
+  readonly image=$(docker ps | awk '{split($2,a,":");print $1 " " a[1]}' | fzf) 
+
+  # pull id
+  readonly id=$(echo $image | awk '{print $1}')
+
+  while true; do docker logs --follow --tail 200 $id || break; done;
+}
+alias dcl=docker-logs
+
+docker-kill() {
+  # get image
+  readonly image=$(docker ps | awk '{split($2,a,":");print $1 " " a[1]}' | fzf) 
+
+  # pull id
+  readonly id=$(echo $image | awk '{print $1}')
+
+  docker kill $id;
+}
+alias dck=docker-kill
+
+docker-restart() {
+  if [ -z "$1" ];
+    then readonly id=$(echo $(docker ps | awk '{split($2,a,":");print $1 " " a[1]}' | fzf) | awk '{print $1}');
+    else readonly id=$1;
+  fi;
+
+  echo Restarting $id ...
+  docker restart $id
+  echo Restarted $id
+}
+alias dcr=docker-restart
+
+
+kb() {
+  local targetapp=$(find-webapp-name $@)
+
+  if [ ! -z "$targetapp" ]; then; 
+    targetapp=$(echo $targetapp | tr '_' '-')
+    readonly local url=https://wiki/display/KBWEB/$targetapp;
+    printf "\n****\n$url\n****\n";
+    xdg-open $url > /dev/null 2>&1 &;
+    cd .
+  fi;
+}
+
+alias dstop='docker stop $(docker ps -a -q)'
+
+alias vim='neovim'
+
+alias fcd='cd $(find * -type d | fast-fzf $@)'
+
+# Project     Repo                  Local directory
+export REPOS="
+    UI        webapp
+    UI        kube-webapps
+    UI        monorepo
+    UI        kube-infra
+    UI        base-docker-images
+    UI        npm-packages
+    WEB       web-spec-creator
+    WEB       black-box-testing
+    WEB       webcommon
+    WEB       csolace-mocks
+    WEB       metadata
+    WEB       cpm
+    WEB       solsub
+    WEB       fastapi-websocket
+    PY        csolace
+    HBL       grafana-wvt-plugin
+    PERSONAL  grafana-wvt-plugin
+    JUNO      juno-data-stack
+    PROT      protocol                /sandbox/samuel.chen/MISC/protocol
+    PDLE      pdle                    /sandbox/samuel.chen/MISC/pdle
+    DEVOPS    kube-infra-use2cicd     /sandbox/samuel.chen/MISC/kube-infra-use2cicd
+    BNK       ak_date_utils           /sandbox/samuel.chen/MISC/ak_date_utils
+  "
+
+function get_repo_details() {
+  # Pull repo information from REPOS variable, infer repo directory if not provided
+  target_repo=$(echo "$REPOS" | awk '{print $2}' | fast-fzf "Select a repo: " $@) || return
+  local target=$(echo "$REPOS" | grep -E "\\$target_repo$"); #match line ends with repo name
+
+  # Infer local repo directory 
+  if [ -z $(echo $target | awk '{print $3}') ]; then; 
+    target="$target /sandbox/samuel.chen/$(echo $target | awk '{print $1}')/$target_repo";
+  fi;
+
+  echo $target
+}
+
+D() {
+  # Echo repo directory
+  local target=$(get_repo_details $@)
+  if [ -z "$target" ]; then; return; fi;
+  echo $(echo "$target" | awk '{print $3}');
+}
+
+N() {local d=$(D $@); [ ! -z "$d" ] && cd $d;};
+C() {local d=$(D $@); [ ! -z "$d" ] && code $d;};
+F() {local d=$(D $@); [ -z "$d" ] && return; cd $d && goto}
+
+U() {
+  # update repo to most recent
+
+  local readonly current_dir=$(pwd)
+  local readonly target_repo=$(get_repo_details)
+
+  N && g com && g pl && cd $current_dir;
+
+  echo ${bold}Updated 
+}
+
+B() {
+  # Open a file's bitbucket source
+  # Search for repo to target
+  local target=$(get_repo_details);
+  [ -z "$target" ] && return;
+  local target_project=$(echo "$target" | awk '{print $1}');
+  local target_repo=$(echo "$target" | awk '{print $2}');
+  local target_local_dir=$(echo "$target" | awk '{print $3}');
+
+  readonly local current_dir=$(pwd);
+  cd $target_local_dir;
+  local target_file=$(fzf --prompt="Select a file to open in Bitbucket: ");
+  if [ ! -z "$target_file" ]; then;
+    readonly local url="https://bitbucket/projects/$target_project/repos/$target_repo/browse/$target_file"
+    printf "\n****\n${bold}$url${normal}\n****\n";
+    xdg-open $url > /dev/null 2>&1 &;
+  fi;
+  cd $current_dir
+}
+
+# unalias gf
+# gf() {
+#   # Goto directory
+#   readonly local target=$(dirname $(ls | fast-fzf "File to navigate to: " $@);
+#   if [ ! -z "$target" ]; then;
+#     cd $target;
+#     echo "Navigated to ${bold}$(pwd)${normal}, files in directory:";
+#     echo ;
+#     ls;
+#   fi;
+# }
+
+# cf() {
+#   readonly local target=$(dirname $(ls | fast-fzf "File to navigate to: " $@);
+#   if [ ! -z "$target" ]; then;
+#     code $target;
+#   fi;
+# }
+
+kp() {
+  readonly local pid=$(lsof -i tcp:$1 | awk NR\>1 | fzf --prompt="Select process to kill " | awk '{print $2}');
+
+  if [ ! -z "$pid" ]; then;
+    kill -9 $pid;
+  fi;
+}
+
+
+alias standup='/sandbox/samuel.chen/standup/start.sh'
+
+alias nvim=neovim
+
+fd()
+{
+if git rev-parse --git-dir > /dev/null 2>&1; then
+if [ -d .git ]; then
+preview="git diff $@ --color=always -- {-1}"
+execute="enter:execute(git difftool {} < /dev/tty)"
+git diff $@ --name-only | fzf -m --ansi --bind $execute \
+--preview $preview
+else
+gitRepoDir=$(git rev-parse --git-dir | sed 's/.git//')
+pushd $gitRepoDir > /dev/null
+preview="git diff $@ --color=always -- {-1}"
+execute="enter:execute(git difftool {} < /dev/tty)"
+git diff $@ --name-only | fzf -m --ansi --bind $execute \
+--preview $preview
+popd > /dev/null
+fi
+else
+echo "Error: Not inside a git repository."
+fi
+}
+
+alias fdh='fd HEAD~'
+
+fdi() {
+  if [ ! -z "$1" ]; then; fd HEAD~$1; fi;
+}
+
+
+jira() {
+  if [ ! -z "$1" ]; then;
+    if [ ! -z "$2" ]; then;
+      local project_cap=$(echo "$1" |  tr '[:lower:]' '[:upper:]' )
+      xdg-open "http://jira/browse/$project_cap-$2" > /dev/null 2>&1 &;
+    else;
+    xdg-open http://jira/browse/WEB-$1 > /dev/null 2>&1 &;
+    fi;
+  fi;
+}
