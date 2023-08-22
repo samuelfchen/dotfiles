@@ -89,3 +89,5 @@ load-nvmrc
 
 # Source aliases
 source ~/.alias
+
+source ~/.private
