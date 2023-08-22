@@ -13,7 +13,7 @@ keymap.set("n", "<leader><CR>", "<cmd>lua ReloadConfig()<CR>", { noremap = true,
 
 -- use jk to exit insert mode
 keymap.set("i", "kj", "<ESC>")
-keymap.set("n", "kj", "<ESC>")
+-- keymap.set("n", "kj", "<ESC>")
 keymap.set("v", "kj", "<ESC>")
 
 -- exit which-key
@@ -80,3 +80,6 @@ keymap.set("n", "<leader>p", "<cmd>Prettier<cr>") -- list available help tags
 -- git
 keymap.set("n", "<leader>gg", "<cmd>Git<cr>")
 keymap.set("n", "<leader>gd", "<cmd>Gvdiff<cr>")
+
+-- lsp
+keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>")

@@ -18,6 +18,8 @@ end
 
 -- load vs-code like snippets from plugins (e.g. friendly-snippets)
 require("luasnip/loaders/from_vscode").lazy_load()
+-- require('luasnip').filetype_extend("typescript", { "typescriptreact", "html" })
+-- require('luasnip').filetype_extend("javascript", { "javascriptreact", "html" })
 
 vim.opt.completeopt = "menu,menuone,noselect"
 
