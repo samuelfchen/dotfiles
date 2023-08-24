@@ -133,4 +133,8 @@ return packer.startup(function(use)
 
   -- auto-bracket
   use("m4xshen/autoclose.nvim")
+
+
+  -- oil
+  use("stevearc/oil.nvim")
 end)

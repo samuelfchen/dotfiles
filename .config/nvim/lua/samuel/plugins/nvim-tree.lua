@@ -27,6 +27,9 @@ nvimtree.setup({
       },
     },
   },
+  view = {
+    width = 50,
+  },
   -- disable window_picker for
   -- explorer to work well with
   -- window splits

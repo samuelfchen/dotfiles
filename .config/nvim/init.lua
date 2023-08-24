@@ -16,6 +16,7 @@ require("samuel.plugins.which-key")
 require("samuel.plugins.bufferline")
 require("samuel.plugins.gitsigns")
 require("samuel.plugins.autoclose")
+require("samuel.plugins.oil")
 
 -- lsp 
 require("samuel.plugins.lsp.lspconfig")

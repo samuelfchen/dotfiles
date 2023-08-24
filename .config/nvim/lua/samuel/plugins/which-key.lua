@@ -10,7 +10,6 @@ wk.register({
     f = { "Find File" },
     r = { "Open Recent File" }, -- additional options for creating the keymap
   },
-  ["nh"] = { "No highlight" },
   ["<CR>"] = { "Reload NVIM configuration" },
   ["+"] = {"Increment number"},
   ["-"] = {"Decrement number"},
