@@ -68,6 +68,7 @@ return packer.startup(function(use)
   -- fuzzy finding w/ telescope
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
+  use {"smartpde/telescope-recent-files"}
 
   -- autocompletion
   use("hrsh7th/nvim-cmp") -- completion plugin
@@ -90,6 +91,7 @@ return packer.startup(function(use)
   use({
     "glepnir/lspsaga.nvim",
     branch = "main",
+    commit = "3186d5a115e94fb401054a45a7f8db8ff263c88f",
     requires = {
       { "nvim-tree/nvim-web-devicons" },
       { "nvim-treesitter/nvim-treesitter" },
