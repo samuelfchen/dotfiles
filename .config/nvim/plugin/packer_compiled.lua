@@ -230,6 +230,11 @@ _G.packer_plugins = {
     path = "/Users/samuel.chen/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
     url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
   },
+  ["telescope-recent-files"] = {
+    loaded = true,
+    path = "/Users/samuel.chen/.local/share/nvim/site/pack/packer/start/telescope-recent-files",
+    url = "https://github.com/smartpde/telescope-recent-files"
+  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/Users/samuel.chen/.local/share/nvim/site/pack/packer/start/telescope.nvim",

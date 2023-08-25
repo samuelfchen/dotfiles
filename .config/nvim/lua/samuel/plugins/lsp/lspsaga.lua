@@ -22,8 +22,9 @@ saga.setup({
     },
   },
   -- mappings = {
-  --   ['<Leader>ld'] = "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>",
-  --   ['K'] = "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>",
-  --   ['gd'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
-  -- }
+    -- ['<Leader>ld'] = "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>",
+    -- ['K'] = "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>",
+    -- ['gr'] = '<cmd>lua vim.lsp.buf.declaration()<CR>',
+    -- ['gr'] = '<cmd>Lspsaga finder<CR>',
+ -- }
 })

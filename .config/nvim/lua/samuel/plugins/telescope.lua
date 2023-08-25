@@ -10,12 +10,13 @@ if not actions_setup then
   return
 end
 
+
 -- configure telescope
 telescope.setup({
   -- configure custom mappings
   pickers = {
     find_files = {
-      hidden = true
+      hidden = true,
     },
     -- https://www.reddit.com/r/neovim/comments/13fuazn/lsp_references_in_telescope/
     lsp_references = { fname_width = 100, },
@@ -23,6 +24,14 @@ telescope.setup({
   defaults = {
     file_ignore_patterns = { "node%_modules/.*", ".git/"},
     path_display = { "truncate" },
+    layout_strategy = 'vertical',
+    -- layout_config = {
+    --   center = {
+    --     width = 0.9,
+    --     height = 0.8,
+    --     preview_width = 0.9
+    --   }
+    -- },
     mappings = {
       i = {
         ["kj"] = actions.close, -- close on kj
@@ -35,3 +44,5 @@ telescope.setup({
 })
 
 telescope.load_extension("fzf")
+telescope.load_extension("recent_files")
+
