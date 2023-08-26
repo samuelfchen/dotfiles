@@ -28,7 +28,7 @@ mason_lspconfig.setup({
     "tailwindcss",
     "lua_ls",
     "emmet_language_server",
-    "json-lsp"
+    "json_ls"
   },
   -- auto-install configured servers (with lspconfig)
   automatic_installation = true, -- not the same as ensure_installed

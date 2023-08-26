@@ -7,7 +7,7 @@
 [alias]
 	a = add
 	st = status
-	ci = commit
+	c = commit
 	br = branch
 	co = checkout
 	fcom = !git fetch && git checkout master
