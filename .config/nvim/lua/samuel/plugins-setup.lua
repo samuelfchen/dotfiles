@@ -91,7 +91,6 @@ return packer.startup(function(use)
   use({
     "glepnir/lspsaga.nvim",
     branch = "main",
-    commit = "3186d5a115e94fb401054a45a7f8db8ff263c88f",
     requires = {
       { "nvim-tree/nvim-web-devicons" },
       { "nvim-treesitter/nvim-treesitter" },
