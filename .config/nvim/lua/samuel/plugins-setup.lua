@@ -57,8 +57,12 @@ return packer.startup(function(use)
   -- statusline
   use("nvim-lualine/lualine.nvim")
 
-  -- bufferline
-  use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+  -- -- bufferline
+  -- use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+
+  -- tabby
+  use('nanozuki/tabby.nvim')
+
   -- better buffer closing
   use("moll/vim-bbye")
 

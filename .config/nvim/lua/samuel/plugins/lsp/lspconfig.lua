@@ -158,3 +158,5 @@ lspconfig["eslint"].setup({
 })
 
 lspconfig.jsonls.setup({})
+
+lspconfig.graphql.setup({})
