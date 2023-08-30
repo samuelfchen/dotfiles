@@ -20,6 +20,20 @@ telescope.setup({
     },
     -- https://www.reddit.com/r/neovim/comments/13fuazn/lsp_references_in_telescope/
     lsp_references = { fname_width = 100, },
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      previewer = false,
+      theme = "dropdown",
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+          ["kj"] = actions.close, -- close on kj
+          ["<C-k>"] = actions.move_selection_previous, -- move to prev result
+          ["<C-j>"] = actions.move_selection_next, -- move to next result
+        }
+      }
+    }
   },
   defaults = {
     file_ignore_patterns = { "node%_modules/.*", ".git/"},
