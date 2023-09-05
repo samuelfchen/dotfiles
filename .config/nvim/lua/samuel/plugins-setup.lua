@@ -10,7 +10,6 @@ local ensure_packer = function()
   return false
 end
 local packer_bootstrap = ensure_packer() -- true if packer was just installed
-
 -- autocommand that reloads neovim and installs/updates/removes plugins
 -- when file is saved
 vim.cmd([[ 
@@ -142,4 +141,17 @@ return packer.startup(function(use)
 
   -- oil
   use("stevearc/oil.nvim")
+
+  -- diffview
+  use "sindrets/diffview.nvim" 
+
+  use {
+    'rmagatti/auto-session',
+    config = function()
+      require("auto-session").setup {
+        log_level = "error",
+        auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+      }
+    end
+}
 end)
