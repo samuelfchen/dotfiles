@@ -13,8 +13,7 @@ end
 -- import typescript plugin safely
 local typescript_setup, typescript = pcall(require, "typescript")
 if not typescript_setup then
-  return
-end
+  return end
 
 local keymap = vim.keymap -- for conciseness
 
@@ -159,4 +158,11 @@ lspconfig["eslint"].setup({
 
 lspconfig.jsonls.setup({})
 
-lspconfig.graphql.setup({})
+lspconfig.graphql.setup({
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern(".graphqlconfig", ".graphqlrc", "package.json"),
+  flags = {
+    debounce_text_changes = 150,
+  },
+  capabilities = capabilities,
+})

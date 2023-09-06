@@ -155,4 +155,6 @@ return packer.startup(function(use)
       }
     end
 }
+
+  use("jparise/vim-graphql")
 end)
