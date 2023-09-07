@@ -114,22 +114,17 @@ return packer.startup(function(use)
     config = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
     end
   }
 
   -- git 
   use("lewis6991/gitsigns.nvim")
   -- use("dinhhuy258/git.nvim")
-  use("tpope/vim-fugitive")
-  use("rbong/vim-flog")
-  use {'akinsho/git-conflict.nvim', tag = "*", config = function()
-    require('git-conflict').setup()
-  end}
+  -- use("tpope/vim-fugitive")
+  -- use("rbong/vim-flog")
+  -- use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+  --   require('git-conflict').setup()
+  -- end}
 
 
   -- prettier
@@ -144,7 +139,7 @@ return packer.startup(function(use)
   use("stevearc/oil.nvim")
 
   -- diffview
-  use "sindrets/diffview.nvim" 
+  use("sindrets/diffview.nvim")
 
   use {
     'rmagatti/auto-session',
@@ -154,7 +149,11 @@ return packer.startup(function(use)
         auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
       }
     end
-}
+  }
 
+  -- for graphql syntax highlighting
   use("jparise/vim-graphql")
+
+  -- improved search
+  use("haya14busa/is.vim")
 end)
