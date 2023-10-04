@@ -119,12 +119,15 @@ return packer.startup(function(use)
 
   -- git 
   use("lewis6991/gitsigns.nvim")
-  -- use("dinhhuy258/git.nvim")
+  use("dinhhuy258/git.nvim")
   -- use("tpope/vim-fugitive")
   -- use("rbong/vim-flog")
   -- use {'akinsho/git-conflict.nvim', tag = "*", config = function()
   --   require('git-conflict').setup()
   -- end}
+  -- for opening files in web
+  use "pabloariasal/webify.nvim"
+
 
 
   -- prettier

@@ -3,7 +3,7 @@
 	editor = nvim
 [user]
 	name = Samuel Chen
-	email = samuel.chen@akunacapital.com
+	email = samuel.chen@airwallex.com
 [alias]
 	a = add
 	st = status
@@ -21,6 +21,7 @@
 	who = shortlog -s --
 	hr = reset --hard
 	hrh = reset --hard HEAD
+  hru = reset --hard @{u}
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	rbc = rebase --continue
 	rba = rebase --abort
@@ -62,6 +63,7 @@
 	refresh = !git checkout main && git pull upstream main && git push --force # gitlab refresh	
 	sh = !git stash
 	shp = !git stash pop
+  fm = !git fetch origin master:master
 
 
 [push]

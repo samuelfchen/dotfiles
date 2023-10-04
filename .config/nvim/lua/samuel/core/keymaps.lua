@@ -5,8 +5,7 @@ local keymap = vim.keymap -- for conciseness
 
 
 -- Utility function to get visual selection
-function vim.getVisualSelection()
-	vim.cmd('noau normal! "vy"')
+function vim.getVisualSelection() vim.cmd('noau normal! "vy"')
 	local text = vim.fn.getreg('v')
 	vim.fn.setreg('v', {})
 
@@ -103,6 +102,8 @@ keymap.set("n", "<leader>p", "<cmd>Prettier<cr>") -- list available help tags
 -- git
 keymap.set("n", "<leader>gg", "<cmd>Git<cr>")
 keymap.set("n", "<leader>gd", "<cmd>Gvdiff<cr>")
+keymap.set("n", "<leader>gyl", "<cmd>YankLineUrl +<cr>")
+keymap.set("n", "<leader>gyf", "<cmd>YankFileUrl +<cr>")
 
 -- lsp
 keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>")

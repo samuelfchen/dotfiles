@@ -22,9 +22,17 @@ telescope.setup({
     lsp_references = { fname_width = 100, },
     buffers = {
       show_all_buffers = true,
+      ignore_current_buffer = true,
       sort_lastused = true,
       previewer = false,
       theme = "dropdown",
+      -- layout_config = {
+      --   vertical = {
+      --     width = {0.5, max = 80},
+      --     height = {0.3, max = 50},
+      --     preview_width = 0.9
+      --   }
+      -- },
       mappings = {
         i = {
           ["<c-d>"] = "delete_buffer",

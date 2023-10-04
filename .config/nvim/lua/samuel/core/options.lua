@@ -42,6 +42,9 @@ opt.showtabline = 2
 -- don't really like this
 -- opt.iskeyword:append("-") 
 
+opt.scrolloff = 2
+opt.sidescrolloff = 2
+
 
 
 -- Autoread when changed on disk

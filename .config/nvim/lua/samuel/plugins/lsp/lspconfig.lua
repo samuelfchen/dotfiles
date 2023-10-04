@@ -144,16 +144,18 @@ lspconfig["lua_ls"].setup({
   },
 })
 
+--https://www.reddit.com/r/neovim/comments/q893u5/eslint_language_server_added_to_nvimlspconfig/ 
 lspconfig["eslint"].setup({
   settings = {
     packageManager = 'yarn'
   },
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-  end,
+  -- on_attach = function(client, bufnr)
+  --   vim.api.nvim_create_autocmd("BufWritePre", {
+  --     buffer = bufnr,
+  --     command = "EslintFixAll",
+  --   })
+  -- end,
+  capabilities = capabilities
 })
 
 lspconfig.jsonls.setup({})
