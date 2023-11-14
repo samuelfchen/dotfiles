@@ -1,8 +1,6 @@
 -- auto install packer if not installed
 local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-  if fn.empty(fn.glob(install_path)) > 0 then
+  local fn = vim.fn local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim" if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
     vim.cmd([[packadd packer.nvim]])
     return true
@@ -93,7 +91,7 @@ return packer.startup(function(use)
   use("neovim/nvim-lspconfig") -- easily configure language servers
   use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
   use({
-    "glepnir/lspsaga.nvim",
+    "nvimdev/lspsaga.nvim",
     branch = "main",
     requires = {
       { "nvim-tree/nvim-web-devicons" },
@@ -159,4 +157,21 @@ return packer.startup(function(use)
 
   -- improved search
   use("haya14busa/is.vim")
+
+  -- doc strings
+  use {
+    'kkoomen/vim-doge',
+    run = ':call doge#install()'
+  }
+
+  -- trouble
+  use  {
+   "folke/trouble.nvim",
+   dependencies = { "nvim-tree/nvim-web-devicons" },
+   opts = {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+   },
+  }
 end)
