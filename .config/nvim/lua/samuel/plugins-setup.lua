@@ -24,8 +24,7 @@ end
 
 return packer.startup(function(use)
   use("wbthomason/packer.nvim")
-
-  -- lua functions that many plugins use
+-- lua functions that many plugins use
   use("nvim-lua/plenary.nvim")
 
   use("bluz71/vim-nightfly-guicolors")    -- preferred colorscheme
