@@ -95,6 +95,7 @@ keymap.set("n", "<leader>fj", "<cmd>Telescope buffers<cr>") -- list open buffers
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 keymap.set("n", "<leader>fr", "<cmd>Telescope lsp_references<cr>") -- list references
 keymap.set("n", "<leader>fh", "<cmd>lua require('telescope').extensions.recent_files.pick()<CR>") -- list references
+keymap.set("n", "<leader>fe", "<cmd>Telescope diagnostic") -- list references
 
 -- prettier
 keymap.set("n", "<leader>p", "<cmd>Prettier<cr>") -- list available help tags

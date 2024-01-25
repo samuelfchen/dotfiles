@@ -60,6 +60,7 @@
 	# ins = "!gi() { if [ -z "$2" ]; then; local readonly start=$1^; local readonly end=$1; else; local readonly start=$1; local readonly end=$2; fi; git diff $start..$end --name-only --relative | fzf -m --ansi --preview "git diff --color=always $start:{} $end:{} || git diff $start --color=always -- {}"; }; gi"
 	who = shortlog -s --
 	af = !git add $(git ls-files -m -d -o --exclude-standard | fzf -m --print0)
+	uf = !git reset HEAD $(git diff --cached --name-only| fzf -m --print0)
 	nd = "!f() { git checkout ${1-master} && git pull && git bclean ${1-master}; }; f"
 	refresh = !git checkout main && git pull upstream main && git push --force # gitlab refresh	
 	sh = !git stash
