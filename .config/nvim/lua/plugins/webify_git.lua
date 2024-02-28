@@ -1,0 +1,3 @@
+return {
+  "pabloariasal/webify.nvim"
+}

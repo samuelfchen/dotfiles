@@ -63,7 +63,7 @@ return {
           vim.lsp.buf.format()
         end, { desc = 'Format current buffer with LSP' })
 
-        vim.keymap('n', "<leader>F", "<cmd>Format<cr>")
+        nmap("<leader>F", "<cmd>Format<cr>")
       end
 
 
@@ -124,5 +124,4 @@ return {
       }
     end
   },
-
 }
