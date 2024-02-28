@@ -72,6 +72,8 @@ keymap.set("n", "<leader>q", ":Bdelete<cr>")
 keymap.set("n", "<leader>Q", ":Bdelete!<cr>")
 keymap.set("n", "<leader>z", ":qa!")
 
+-- paste from yank buffer
+keymap.set("n", "<leader>p", '"0p')
 
 ----------------------
 -- Plugin Keybinds
