@@ -4,7 +4,7 @@
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- Remap for dealing with word wrap
+-- -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
@@ -15,37 +15,35 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- kj to escape
-vim.keymap.set("i", "kj", "<ESC>")
+vim.keymap.set('i', 'kj', '<ESC>')
 
 -- window management
-vim.keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
-vim.keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
-vim.keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-vim.keymap.set("n", "<leader>sn", "<C-w>w") -- cycle to next window 
-vim.keymap.set("n", "<leader>sp", "<C-w>p") -- cycle to previous window 
-vim.keymap.set("n", "<leader>sd", ":close<CR>") -- close current split window
+vim.keymap.set('n', '<leader>sv', '<C-w>v') -- split window vertically
+vim.keymap.set('n', '<leader>sh', '<C-w>s') -- split window horizontally
+vim.keymap.set('n', '<leader>se', '<C-w>=') -- make split windows equal width & height
+vim.keymap.set('n', '<leader>sn', '<C-w>w') -- cycle to next window
+vim.keymap.set('n', '<leader>sp', '<C-w>p') -- cycle to previous window
+vim.keymap.set('n', '<leader>sd', ':close<CR>') -- close current split window
 
-vim.keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
-vim.keymap.set("n", "<leader>td", ":tabclose<CR>") -- close current tab
-vim.keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
-vim.keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
+vim.keymap.set('n', '<leader>to', ':tabnew<CR>') -- open new tab
+vim.keymap.set('n', '<leader>td', ':tabclose<CR>') -- close current tab
+vim.keymap.set('n', '<leader>tn', ':tabn<CR>') --  go to next tab
+vim.keymap.set('n', '<leader>tp', ':tabp<CR>') --  go to previous tab
 
 -- clear search highlights
-vim.keymap.set("n", "<leader>n", ":nohl<CR>")
+vim.keymap.set('n', '<leader>n', ':nohl<CR>')
 
--- center buffer on navigation
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n","{", "{zz")
-vim.keymap.set("n",  "}", "}zz")
-vim.keymap.set("n", "N", "Nzz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "G", "Gzz")
-vim.keymap.set("n", "gg", "ggzz")
-vim.keymap.set("n", "<C-i>", "<C-i>zz")
-vim.keymap.set("n", "<C-o>", "<C-o>zz")
-vim.keymap.set("n", "%", "%zz")
-vim.keymap.set("n", "*", "*zz")
-vim.keymap.set("n", "#", "#zz")
-
-
+-- -- center buffer on navigation
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '{', '{zz')
+vim.keymap.set('n', '}', '}zz')
+vim.keymap.set('n', 'N', 'Nzz')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'G', 'Gzz')
+vim.keymap.set('n', 'gg', 'ggzz')
+vim.keymap.set('n', '<C-i>', '<C-i>zz')
+vim.keymap.set('n', '<C-o>', '<C-o>zz')
+vim.keymap.set('n', '%', '%zz')
+vim.keymap.set('n', '*', '*zz')
+vim.keymap.set('n', '#', '#zz')
