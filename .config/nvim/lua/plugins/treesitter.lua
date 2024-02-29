@@ -4,9 +4,10 @@ return {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      "windwp/nvim-ts-autotag",
     },
     build = ':TSUpdate',
-    config = function ()
+    config = function()
       -- [[ Configure Treesitter ]]
       -- See `:help nvim-treesitter`
       -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -21,6 +22,8 @@ return {
           sync_install = false,
           -- List of parsers to ignore installing
           ignore_install = {},
+          -- enable autotag
+          autotag = { enable = true },
           -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
           modules = {},
           highlight = { enable = true },

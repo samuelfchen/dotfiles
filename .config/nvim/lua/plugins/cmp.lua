@@ -2,6 +2,7 @@ return {
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
@@ -24,6 +25,9 @@ return {
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+
+      -- auto pairs
+      "windwp/nvim-autopairs",
     },
 
     config = function()
@@ -31,6 +35,13 @@ return {
       -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+      require("nvim-autopairs").setup()
+
+      -- Integrate nvim-autopairs with cmp
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
       require('luasnip.loaders.from_vscode').lazy_load()
       luasnip.config.setup {}
 
@@ -44,8 +55,8 @@ return {
           completeopt = 'menu,menuone,noinsert',
         },
         mapping = cmp.mapping.preset.insert {
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<C-j>'] = cmp.mapping.select_next_item(),
+          ['<C-k>'] = cmp.mapping.select_prev_item(),
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete {},
@@ -73,9 +84,10 @@ return {
           end, { 'i', 's' }),
         },
         sources = {
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-          { name = 'path' },
+          { name = "nvim_lsp" },               -- lsp
+          { name = "luasnip", max_item_count = 3 }, -- snippets
+          { name = "buffer",  max_item_count = 5 }, -- text within current buffer
+          { name = "path",    max_item_count = 3 }, -- file system paths
         },
       }
     end
