@@ -41,3 +41,8 @@ vim.o.termguicolors = true
 
 -- highlight cursorline
 vim.o.cursorline = true
+
+-- split windows
+vim.o.splitright = true
+vim.o.splitbelow = true
+
