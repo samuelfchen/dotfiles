@@ -12,24 +12,24 @@ return {
       -- Install none-ls for diagnostics, code actions, and formatting
       {
 
-        "nvimtools/none-ls.nvim",
+        'nvimtools/none-ls.nvim',
         dependencies = {
-          "nvim-lua/plenary.nvim"
-        }
+          'nvim-lua/plenary.nvim',
+        },
       },
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       {
         'j-hui/fidget.nvim',
-        opts = {}
+        opts = {},
       },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
     config = function()
-      local null_ls = require("null-ls")
+      local null_ls = require 'null-ls'
 
       -- [[ Configure LSP ]]
       --  This function gets run when an LSP connects to a particular buffer.
@@ -48,9 +48,9 @@ return {
         end
 
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        nmap('<leader>ca', function()
+        nmap('<leader>.', function()
           vim.lsp.buf.code_action { context = { only = { 'quickfix', 'refactor', 'source' } } }
-        end, '[C]ode [A]ction')
+        end, 'Code Action')
 
         nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
         nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -72,18 +72,17 @@ return {
         end, '[W]orkspace [L]ist Folders')
 
         -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-          vim.lsp.buf.format({
+        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+          vim.lsp.buf.format {
             filter = function(format_client)
               -- Use Prettier to format TS/JS if it's available
-              return format_client.name ~= "tsserver" or not null_ls.is_registered("prettier")
+              return format_client.name ~= 'tsserver' or not null_ls.is_registered 'prettier_d'
             end,
-          })
-        end, { desc = "LSP: Format current buffer with LSP" })
+          }
+        end, { desc = 'LSP: Format current buffer with LSP' })
 
-        nmap("<leader>F", "<cmd>Format<cr>")
+        nmap('<leader>F', '<cmd>Format<cr>')
       end
-
 
       -- mason-lspconfig requires that these setup functions are called in this order
       -- before setting up the servers.
@@ -105,6 +104,7 @@ return {
         -- rust_analyzer = {},
         tsserver = {},
         html = { filetypes = { 'html', 'twig', 'hbs' } },
+        eslint = {},
 
         lua_ls = {
           Lua = {
@@ -141,18 +141,30 @@ return {
         end,
       }
 
-
       -- Congifure LSP formatting
       local formatting = null_ls.builtins.formatting
 
-      null_ls.setup({
-        border = "rounded",
+      local group = vim.api.nvim_create_augroup('lsp_format_on_save', { clear = false })
+      null_ls.setup {
+        border = 'rounded',
         sources = {
           -- formatting
-          formatting.prettier,
+          formatting.prettierd,
           formatting.stylua,
         },
-      })
-    end
+        on_attach = function(_, bufnr)
+          -- format on save
+          vim.api.nvim_clear_autocmds { buffer = bufnr, group = group }
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            group = group,
+            callback = function()
+              vim.lsp.buf.format { bufnr = bufnr, async = async }
+            end,
+            desc = '[lsp] format on save',
+          })
+        end,
+      }
+    end,
   },
 }
