@@ -9,21 +9,34 @@ return {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
 
+      -- Install none-ls for diagnostics, code actions, and formatting
+      {
+
+        "nvimtools/none-ls.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim"
+        }
+      },
+
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {}
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
     config = function()
+      local null_ls = require("null-ls")
+
       -- [[ Configure LSP ]]
       --  This function gets run when an LSP connects to a particular buffer.
       local on_attach = function(_, bufnr)
         -- NOTE: Remember that lua is a real programming language, and as such it is possible
         -- to define small helper and utility functions so you don't have to repeat yourself
         -- many times.
-        --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
         local nmap = function(keys, func, desc)
@@ -59,9 +72,14 @@ return {
         end, '[W]orkspace [L]ist Folders')
 
         -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-          vim.lsp.buf.format()
-        end, { desc = 'Format current buffer with LSP' })
+        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+          vim.lsp.buf.format({
+            filter = function(format_client)
+              -- Use Prettier to format TS/JS if it's available
+              return format_client.name ~= "tsserver" or not null_ls.is_registered("prettier")
+            end,
+          })
+        end, { desc = "LSP: Format current buffer with LSP" })
 
         nmap("<leader>F", "<cmd>Format<cr>")
       end
@@ -86,7 +104,7 @@ return {
         -- pyright = {},
         -- rust_analyzer = {},
         tsserver = {},
-        html = { filetypes = { 'html', 'twig', 'hbs'} },
+        html = { filetypes = { 'html', 'twig', 'hbs' } },
 
         lua_ls = {
           Lua = {
@@ -122,6 +140,19 @@ return {
           }
         end,
       }
+
+
+      -- Congifure LSP formatting
+      local formatting = null_ls.builtins.formatting
+
+      null_ls.setup({
+        border = "rounded",
+        sources = {
+          -- formatting
+          formatting.prettier,
+          formatting.stylua,
+        },
+      })
     end
   },
 }
