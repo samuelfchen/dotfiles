@@ -7,6 +7,7 @@ vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -45,4 +46,3 @@ vim.o.cursorline = true
 -- split windows
 vim.o.splitright = true
 vim.o.splitbelow = true
-
