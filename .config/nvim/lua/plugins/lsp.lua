@@ -148,6 +148,7 @@ return {
         border = 'rounded',
         sources = {
           -- formatting
+          formatting.fixjson,
           formatting.prettierd,
           formatting.stylua,
         },

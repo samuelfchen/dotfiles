@@ -43,3 +43,5 @@ vim.o.cursorline = true
 -- split windows
 vim.o.splitright = true
 vim.o.splitbelow = true
+
+vim.o.wrap = false
