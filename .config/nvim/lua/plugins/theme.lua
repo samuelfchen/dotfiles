@@ -1,21 +1,16 @@
 return {
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    lazy = false,
+    'olimorris/onedarkpro.nvim',
+    priority = 1000, -- Ensure it loads first
     config = function()
-      require('onedark').setup {
-        -- Set a style preset. 'dark' is default.
-        style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-
-        highlights = {
-          IlluminatedWordText = { bg = '#5c6370' },
-          IlluminatedWordRead = { bg = '#5c6370' },
-          IlluminatedWordWrite = { bg = '#5c6370' },
-        },
+      require('onedarkpro').setup {
+        -- highlights = {
+        --   IlluminatedWordText = { bg = '#e2be7d' },
+        --   IlluminatedWordRead = { bg = '#e2be7d' },
+        --   IlluminatedWordWrite = { bg = '#e2be7d' },
+        -- },
       }
-      require('onedark').load()
+      vim.cmd 'colorscheme onedark'
     end,
   },
 }
