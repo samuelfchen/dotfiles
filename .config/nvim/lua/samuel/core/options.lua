@@ -40,16 +40,16 @@ opt.splitbelow = true
 opt.showtabline = 2
 
 -- don't really like this
--- opt.iskeyword:append("-") 
+-- opt.iskeyword:append("-")
 
 opt.scrolloff = 2
 opt.sidescrolloff = 2
 
-
+opt.undofile = true
 
 -- Autoread when changed on disk
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
+	command = "if mode() != 'c' | checktime | endif",
+	pattern = { "*" },
 })
