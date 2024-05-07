@@ -9,6 +9,7 @@
 	st = status
 	c = commit
 	br = branch
+  b = rev-parse --abbrev-ref HEAD 
 	co = checkout
 	fcom = !git fetch && git checkout master
 	com = checkout master
