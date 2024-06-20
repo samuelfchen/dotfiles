@@ -27,6 +27,7 @@
 	rbc = rebase --continue
 	rba = rebase --abort
 	mt = mergetool
+	ms = "!f(){ git merge $(git branch | fzf); }; f"	
 	un = reset HEAD $1
 	stage = add -A
 	ff = !bash -c 'BRANCH_NAME=$(git bn) && git merge --ff-only origin/$BRANCH_NAME'
@@ -68,6 +69,11 @@
 	shp = !git stash pop
   fm = !git fetch origin master:master
   cp = !git cherry-pick
+  # rebase t{ item: entity }il branch
+  rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
+  sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
+  ; rbts = "!f() { git rebase -i HEAD~$(git log --oneline HEAD ^$(git branch | fzf) | wc -l);}; f"
+  ; rbb = "!f() { echo $(git branch | fzf) }; f"
 
 
 [push]
