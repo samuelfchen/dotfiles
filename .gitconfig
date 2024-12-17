@@ -9,6 +9,7 @@
 	st = status
 	c = commit
 	br = branch
+  by = "!f(){ git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy; }; f"
   b = rev-parse --abbrev-ref HEAD 
 	co = checkout
 	fcom = !git fetch && git checkout master
@@ -49,10 +50,12 @@
 	fam = commit --amend --no-edit
 	rs = "!f() { git checkout origin/master $(git ls-files -m -d --exclude-standard | fzf); }; f"
 	wipe = !git add -A && git commit -qm 'wip: WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  bc = "!f(){ git bclean2 && git bclean; }; f"
 	bclean = "!f() { git branch --merged ${1-master} | grep -v ${1-master}$ | xargs -r git branch -d; }; f"
   bclean2 = "!f(){ git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
 	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 	p = push origin HEAD
+	pfn = push origin HEAD -f --no-verify
 	P = push --set-upstream origin HEAD
 	pf = push origin HEAD --force-with-lease
 	ppp = !git commit -a --amend --no-edit && git push --force-with-lease

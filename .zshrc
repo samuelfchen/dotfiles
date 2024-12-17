@@ -58,6 +58,7 @@ source $ZSH/oh-my-zsh.sh
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 
 export PATH="${HOME}/.pyenv/shims:${PATH}"
+export PATH="$(yarn global bin):${PATH}"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -90,3 +91,9 @@ load-nvmrc
 # Source aliases
 source ~/.alias
 test -f ~/.private && source ~/.private
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/samuel.chen/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/samuel.chen/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/samuel.chen/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/samuel.chen/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

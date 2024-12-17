@@ -15,8 +15,15 @@ end
 telescope.setup({
   -- configure custom mappings
   pickers = {
+    live_grep = {
+        additional_args = function(opts)
+            return {"--hidden"}
+        end
+    },
     find_files = {
       hidden = true,
+      find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
+      previewer = false
     },
     -- https://www.reddit.com/r/neovim/comments/13fuazn/lsp_references_in_telescope/
     lsp_references = { fname_width = 100, },
