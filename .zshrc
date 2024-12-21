@@ -55,15 +55,17 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 
 export PATH="${HOME}/.pyenv/shims:${PATH}"
 export PATH="$(yarn global bin):${PATH}"
 
+### NVM setup and config
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 
 # Autoload NVM 
 # https://stackoverflow.com/questions/57110542/how-to-write-a-nvmrc-file-which-automatically-change-node-version
@@ -91,9 +93,3 @@ load-nvmrc
 # Source aliases
 source ~/.alias
 test -f ~/.private && source ~/.private
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/samuel.chen/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/samuel.chen/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/samuel.chen/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/samuel.chen/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
