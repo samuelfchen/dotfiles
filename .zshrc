@@ -88,3 +88,9 @@ load-nvmrc
 # Source aliases
 source ~/.alias
 test -f ~/.private && source ~/.private
+
+export PATH="/Users/schen5/.orbit/bin:$PATH"
+
+source ~/.afm-git-configrc
+
+export PATH="/Users/schen5/atlassian/atlassian-frontend-monorepo/afm-tools/path:$PATH"

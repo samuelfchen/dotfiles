@@ -23,7 +23,7 @@
 	who = shortlog -s --
 	hr = reset --hard
 	hrh = reset --hard HEAD
-  hru = reset --hard @{u}
+        hru = reset --hard @{u}
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	rbc = rebase --continue
 	rba = rebase --abort
@@ -53,6 +53,7 @@
   bc = "!f(){ git bclean2 && git bclean; }; f"
 	bclean = "!f() { git branch --merged ${1-master} | grep -v ${1-master}$ | xargs -r git branch -d; }; f"
   bclean2 = "!f(){ git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
+	bc = bclean2
 	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 	p = push origin HEAD
 	pfn = push origin HEAD -f --no-verify
@@ -79,6 +80,7 @@
   ; rbb = "!f() { echo $(git branch | fzf) }; f"
 
 
+
 [push]
 	default=current
 [pull]
@@ -94,3 +96,10 @@
 [http]
 	postBuffer = 157286400
 	version = HTTP/2
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[maintenance]
+	repo = /Users/schen5/atlassian/atlassian-frontend-monorepo
