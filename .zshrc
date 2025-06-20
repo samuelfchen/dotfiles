@@ -94,5 +94,3 @@ export PATH="/Users/schen5/.orbit/bin:$PATH"
 source ~/.afm-git-configrc
 
 export PATH="/Users/schen5/atlassian/atlassian-frontend-monorepo/afm-tools/path:$PATH"
-
-export SSH_AUTH_SOCK=/Users/schen5/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
