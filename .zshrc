@@ -62,6 +62,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Source aliases
+source ~/.alias
+test -f ~/.private && source ~/.private
+
 # Autoload NVM 
 # https://stackoverflow.com/questions/57110542/how-to-write-a-nvmrc-file-which-automatically-change-node-version
 autoload -U add-zsh-hook
@@ -84,10 +88,3 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
-
-# Source aliases
-source ~/.alias
-test -f ~/.private && source ~/.private
-
-
-export PATH="/Users/schen5/atlassian/atlassian-frontend-monorepo/afm-tools/path:$PATH"
