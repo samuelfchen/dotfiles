@@ -90,6 +90,7 @@
 
 [push]
 	default=current
+	autoSetupRemote = true
 [pull]
     rebase = true
 [diff]
@@ -110,8 +111,9 @@
 	process = git-lfs filter-process
 [maintenance]
 	repo = /Users/schen5/atlassian/atlassian-frontend-monorepo
+	repo = /home/ubuntu/atlassian-frontend-monorepo
 [trace2]
-	eventTarget = af_unix:/Users/schen5/.gittrace/trace.sock
+	eventTarget = af_unix:/home/ubuntu/.gittrace/trace.sock
 	eventBrief = true
 	eventNesting = 1
 	configparams = custom.metacommands
