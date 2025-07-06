@@ -1,42 +1,44 @@
 [core]
 	eol = lf
 	editor = nvim
+	excludesfile = /home/ubuntu/.gitignore_global
 [user]
 	name = Samuel Chen
 	email = samuel.chen@airwallex.com
 [alias]
-	  a = add
-	  st = status
-	  c = commit
-	  br = branch
-	  by = "!f(){ git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy; }; f"
-	  b = rev-parse --abbrev-ref HEAD 
-	  co = checkout
-	  fcom = !git fetch && git checkout master
+	a = add
+	st = status
+	c = commit
+	br = branch
+	by = "!f(){ git rev-parse --abbrev-ref HEAD | tr -d '\n' | pbcopy; }; f"
+	b = rev-parse --abbrev-ref HEAD
+	co = checkout
+	fcom = !git fetch && git checkout master
 	com = checkout master
-	fe = fetch --prune origin 
+	fe = fetch --prune origin
 	bn = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
 	rb = rebase
 	rbm = rebase master
 	pr = !sh -c 'BRANCH_NAME=$(git bn) && git co $0 && git fe && git merge --ff-only origin/$0 && git co $BRANCH_NAME && git rb $0'
 	pmr = !git pr master
 	who = shortlog -s --
+	who = shortlog -s --
 	hr = reset --hard
 	hrh = reset --hard HEAD
-        hru = reset --hard @{u}
+	hru = reset --hard @{u}
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	rbc = rebase --continue
 	rba = rebase --abort
 	mt = mergetool
-	ms = "!f(){ git merge $(git branch | fzf); }; f"	
+	ms = "!f(){ git merge $(git branch | fzf); }; f"
 	un = reset HEAD $1
 	stage = add -A
 	ff = !bash -c 'BRANCH_NAME=$(git bn) && git merge --ff-only origin/$BRANCH_NAME'
 	ec = config --global -e
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
 	cob = checkout -b
-	rbi = "!f(){ git rb -i HEAD~${1}; }; f"	
-	rbs = "!f(){ git rb $(git branch | fzf); }; f"	
+	rbi = "!f(){ git rb -i HEAD~${1}; }; f"
+	rbs = "!f(){ git rb $(git branch | fzf); }; f"
 	cos = "!f(){ git checkout $(git branch | fzf); }; f"
 	dbs = "!f(){ git branch -D $(git branch | fzf); }; f"
 	lbr = "!f(){ git branch | grep $1; }; f"
@@ -53,50 +55,35 @@
 	bc = "!f() { git branch --merged ${1-master} | grep -v ${1-master}$ | xargs -r git branch -d; }; f"
 	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 	p = push origin HEAD
+	p = !
+	p = push origin HEAD
 	pfn = push origin HEAD -f --no-verify
 	P = push --set-upstream origin HEAD
 	pf = push origin HEAD --force-with-lease
 	ppp = !git commit -a --amend --no-edit && git push --force-with-lease
-	pl = pull 
-	# ins = "!f(){ git diff ${1}~ ${1}; }; f"
-	# ins = "!f() { git diff ${1}~1 ${1} --name-only --relative | fzf -m --ansi  }; f"
-	# ins = "!gi() { if [ -z "$2" ]; then; local readonly start=$1^; local readonly end=$1; else; local readonly start=$1; local readonly end=$2; fi; git diff $start..$end --name-only --relative | fzf -m --ansi --preview "git diff --color=always $start:{} $end:{} || git diff $start --color=always -- {}"; }; gi"
-	who = shortlog -s --
+	pl = pull origin HEAD
+	mm = !git merge master --no-ff --no-edit
 	af = !git add $(git ls-files -m -d -o --exclude-standard | fzf -m --print0)
 	uf = !git reset HEAD $(git diff --cached --name-only| fzf -m --print0)
 	nd = "!f() { git checkout ${1-master} && git pull && git bclean ${1-master}; }; f"
-	refresh = !git checkout main && git pull upstream main && git push --force # gitlab refresh	
+	refresh = !git checkout main && git pull upstream main && git push --force # gitlab refresh
+	refresh = !f() { 		if git diff-index --quiet HEAD --; then 		    git fetch origin master:master && git rebase master; 		else 		    git wip && git fetch origin master:master && git rebase master && git undo; 		fi; 	    }; f
 	sh = !git stash
 	shp = !git stash pop
 	fm = !git fetch origin master:master
 	pm = !git checkout master && git pull origin master:master
-	p = !
 	cp = !git cherry-pick
-	# rebase t{ item: entity }il branch
 	rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
 	sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
-	; rbts = "!f() { git rebase -i HEAD~$(git log --oneline HEAD ^$(git branch | fzf) | wc -l);}; f"
-	; rbb = "!f() { echo $(git branch | fzf) }; f"
-	refresh = "!f() { \
-		if git diff-index --quiet HEAD --; then \
-		    git fetch origin master:master && git rebase master; \
-		else \
-		    git wip && git fetch origin master:master && git rebase master && git undo; \
-		fi; \
-	    }; f"
-	p = push origin HEAD
-
-
-
 [push]
-	default=current
+	default = current
 	autoSetupRemote = true
 [pull]
-    rebase = true
+	rebase = true
 [diff]
 	tool = vimdiff
 [difftool "vscode"]
-    cmd = code --wait --diff $LOCAL $REMOTE
+	cmd = code --wait --diff $LOCAL $REMOTE
 [credential]
 	helper = store
 [difftool]
