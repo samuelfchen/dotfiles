@@ -43,3 +43,25 @@ kp() {
   fi;
 }
 
+
+## atlassian stuff synced across machines
+
+jiraclean() {
+	rm -rf .parcel-*/
+	rm -rf build/
+	yarn cache clean
+	atlas tunnel clean
+	nvm use
+	yarn
+};
+
+alias fixtunnel='atlas tunnel start --port 8080'
+
+jiraupdate() {
+	git fetch origin master:master
+	git rebase master -X theirs
+	afm install
+	yarn relay
+	git add -u
+	git commit -m 'update relay'
+}
