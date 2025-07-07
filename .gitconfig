@@ -75,6 +75,10 @@
 	cp = !git cherry-pick
 	rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
 	sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
+	cor = "!f() { \
+        git fetch origin \"$1:$1\" && \
+        git checkout \"$1\"; \
+    }; f"
 [push]
 	default = current
 	autoSetupRemote = true
