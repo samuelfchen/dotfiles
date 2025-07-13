@@ -1,0 +1,44 @@
+" Basic settings
+set relativenumber
+set clipboard+=unnamed
+let mapleader=" "
+
+" Insert mode mappings
+inoremap kj <Esc>
+
+" Normal mode mappings
+" Navigation and actions
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gh :action ShowHover<CR>
+nnoremap gr :action FindUsages<CR>
+nnoremap <leader>. :action ShowIntentionActions<CR>
+nnoremap <leader>d :action GotoNextError<CR>
+nnoremap <leader>D :action GotoPreviousError<CR>
+
+" File operations
+nnoremap <leader>w :w<CR>
+nnoremap <leader>W :w<CR>:q<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>Q :q!<CR>
+nnoremap <leader>r :e!<CR>
+
+" Window splits
+nnoremap <leader>sv :vsplit<CR>
+nnoremap <leader>sh :split<CR>
+nnoremap <leader>sd :q<CR>
+
+" File navigation
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fs :action FindInPath<CR>
+nnoremap <leader>fo :action RecentFiles<CR>
+
+" Editor navigation
+nnoremap J :action PreviousTab<CR>
+nnoremap K :action NextTab<CR>
+
+" Explorer and sidebar
+nnoremap <leader>e :action SelectInProjectView<CR>
+nnoremap <leader>E :action ToggleProjectView<CR>
+
+" Code actions
+nnoremap <leader>rn :action RenameElement<CR>
