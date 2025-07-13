@@ -79,6 +79,7 @@
         git fetch origin \"$1:$1\" && \
         git checkout \"$1\"; \
     }; f"
+	hooks = !\"/home/ubuntu/.githooks/bin/githooks\"
 [push]
 	default = current
 	autoSetupRemote = true
@@ -108,3 +109,10 @@
 	eventBrief = true
 	eventNesting = 1
 	configparams = custom.metacommands
+[githooks]
+	installDir = /home/ubuntu/.githooks
+	runner = /home/ubuntu/.githooks/release/base-template.sh
+	cloneUrl = https://github.com/rycus86/githooks.git
+	cloneBranch = master
+[githooks "autoupdate"]
+	enabled = true
