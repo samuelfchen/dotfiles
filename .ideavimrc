@@ -1,4 +1,5 @@
 " Basic settings
+set smartcase
 set relativenumber
 set clipboard+=unnamed
 let mapleader=" "
@@ -9,7 +10,7 @@ inoremap kj <Esc>
 " Normal mode mappings
 " Navigation and actions
 nnoremap gd :action GotoDeclaration<CR>
-nnoremap gh :action ShowHover<CR>
+nnoremap gh :action QuickJavaDoc<CR>
 nnoremap gr :action FindUsages<CR>
 nnoremap <leader>. :action ShowIntentionActions<CR>
 nnoremap <leader>d :action GotoNextError<CR>
@@ -42,3 +43,23 @@ nnoremap <leader>E :action ToggleProjectView<CR>
 
 " Code actions
 nnoremap <leader>rn :action RenameElement<CR>
+
+" Hacks
+" nmap u :action Undo<CR>
+" nmap <C-r> :action Redo<CR>
+
+" Pane navigation with Ctrl+h/j/k/l
+" 1. Move focus between editor and console (and other panes)
+nnoremap <C-h> :action ActivateLeftWindow<CR>
+nnoremap <C-j> :action ActivateDownWindow<CR>
+nnoremap <C-k> :action ActivateUpWindow<CR>
+nnoremap <C-l> :action ActivateRightWindow<CR>
+
+" 2. Move focus between vertical/horizontal editor splits
+" (The above mappings will also work for editor splits in most JetBrains IDEs)
+
+" 3. Move focus from editor/console to other panes (e.g., Project, Terminal, etc.)
+" Example: <leader>1 for Project, <leader>4 for Run, <leader>9 for Terminal
+nnoremap <leader>1 :action ActivateProjectToolWindow<CR>
+nnoremap <leader>4 :action ActivateRunToolWindow<CR>
+nnoremap <leader>9 :action ActivateTerminalToolWindow<CR>
