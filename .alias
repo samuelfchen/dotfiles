@@ -2,7 +2,6 @@
 # Aliases
 # 
 
-alias vim=nvim
 alias e=nvim
 alias el='NVIM_APPNAME="nvim-legacy" nvim'
 alias vimo='nvim -u .config/nvim-legacy/init.lua'

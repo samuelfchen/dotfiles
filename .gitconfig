@@ -26,7 +26,7 @@
 	hr = reset --hard
 	hrh = reset --hard HEAD
 	hru = reset --hard @{u}
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --n 50
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 50
 	rbc = rebase --continue
 	rba = rebase --abort
 	mt = mergetool
@@ -116,3 +116,4 @@
 	cloneBranch = master
 [githooks "autoupdate"]
 	enabled = true
+	lastrun = 1753053626

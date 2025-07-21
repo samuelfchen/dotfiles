@@ -94,3 +94,4 @@ load-nvmrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+export PATH="$HOME/bin/nvim/bin:$PATH"
