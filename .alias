@@ -69,3 +69,8 @@ jiraupdate() {
 nin() {
  yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
+
+intellij() {
+  /opt/devenv/stop-intellij-server.sh jira
+  /opt/devenv/establish-intellij-connection.sh jira
+}

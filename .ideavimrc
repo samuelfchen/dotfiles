@@ -1,5 +1,6 @@
 " Basic settings
 set smartcase
+set ignorecase
 set relativenumber
 set clipboard+=unnamed
 let mapleader=" "
