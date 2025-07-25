@@ -4,7 +4,7 @@
 	excludesfile = /home/ubuntu/.gitignore_global
 [user]
 	name = Samuel Chen
-	email = samuel.chen@airwallex.com
+	email = schen5@atlassian.com
 [alias]
 	a = add
 	st = status
@@ -26,7 +26,8 @@
 	hr = reset --hard
 	hrh = reset --hard HEAD
 	hru = reset --hard @{u}
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 50
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgs = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 5
 	rbc = rebase --continue
 	rba = rebase --abort
 	mt = mergetool
@@ -75,10 +76,7 @@
 	cp = !git cherry-pick
 	rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
 	sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
-	cor = "!f() { \
-        git fetch origin \"$1:$1\" && \
-        git checkout \"$1\"; \
-    }; f"
+	cor = !f() {         git fetch origin "$1:$1" &&         git checkout "$1";     }; f
 	hooks = !\"/home/ubuntu/.githooks/bin/githooks\"
 [push]
 	default = current
@@ -116,4 +114,4 @@
 	cloneBranch = master
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1753053626
+	lastrun = 1753165920

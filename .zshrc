@@ -95,3 +95,5 @@ load-nvmrc
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 export PATH="$HOME/bin/nvim/bin:$PATH"
+
+. "$HOME/.local/bin/env"

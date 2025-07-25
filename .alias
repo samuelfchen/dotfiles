@@ -46,6 +46,7 @@ kp() {
 ## atlassian stuff synced across machines
 
 jiraclean() {
+	rm -rf node-modules/
 	rm -rf .parcel-*/
 	rm -rf build/
 	yarn cache clean
@@ -58,9 +59,13 @@ alias fixtunnel='atlas tunnel start --port 8080'
 
 jiraupdate() {
 	git fetch origin master:master
-	git rebase master -X theirs
+	git rebase master
 	afm install
 	yarn relay
 	git add -u
 	git commit -m 'update relay'
+}
+
+nin() {
+ yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
