@@ -1,14 +1,28 @@
+# Set to true to enable timing logs
+ENABLE_TIMING_LOGS=false
+
+# Timing function
+function log_time() {
+    if [ "$ENABLE_TIMING_LOGS" = true ]; then
+        echo "$@"
+    fi
+}
+
 # Start total time measurement
-TIMER=$(($(date +%s%N)/1000000))
-echo "Starting zsh initialization..."
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    TIMER=$(($(date +%s%N)/1000000))
+    log_time "Starting zsh initialization..."
+fi
 
 # Enable Powerlevel10k instant prompt
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-t1=$(($(date +%s%N)/1000000))
-echo "p10k instant prompt took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "p10k instant prompt took $((t1-t0))ms"
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -20,7 +34,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode auto
 
 # Plugin loading
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 plugins=(
   git
   z
@@ -30,19 +44,23 @@ plugins=(
   fast-syntax-highlighting
 )
 source $ZSH/oh-my-zsh.sh
-t1=$(($(date +%s%N)/1000000))
-echo "oh-my-zsh and plugins took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "oh-my-zsh and plugins took $((t1-t0))ms"
+fi
 
 # p10k configuration
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-t1=$(($(date +%s%N)/1000000))
-echo "p10k configuration took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "p10k configuration took $((t1-t0))ms"
+fi
 
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 
 # PATH modifications
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 path_additions=(
   "$HOME/.pyenv/shims"
   "$HOME/bin/nvim/bin"
@@ -52,11 +70,13 @@ export PATH="${(j.:.)path_additions}:$PATH"
 # Cache yarn global bin path - adjust this path if different
 YARN_GLOBAL_BIN="$HOME/.yarn/bin"
 [[ -d $YARN_GLOBAL_BIN ]] && export PATH="$YARN_GLOBAL_BIN:$PATH"
-t1=$(($(date +%s%N)/1000000))
-echo "PATH modifications took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "PATH modifications took $((t1-t0))ms"
+fi
 
 # NVM setup and config
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 export NVM_DIR="$HOME/.nvm"
 
 # Lazy load nvm
@@ -84,18 +104,22 @@ npx() {
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     npx "$@"
 }
-t1=$(($(date +%s%N)/1000000))
-echo "NVM setup took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "NVM setup took $((t1-t0))ms"
+fi
 
 # Source additional files
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 source ~/.alias
 test -f ~/.private && source ~/.private
-t1=$(($(date +%s%N)/1000000))
-echo "Loading additional files took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "Loading additional files took $((t1-t0))ms"
+fi
 
 # NVM autoload setup
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 autoload -U add-zsh-hook
 load-nvmrc() {
   local nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
@@ -111,17 +135,21 @@ load-nvmrc() {
   fi
 }
 add-zsh-hook chpwd load-nvmrc
-t1=$(($(date +%s%N)/1000000))
-echo "NVM autoload setup took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "NVM autoload setup took $((t1-t0))ms"
+fi
 
 # FZF
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-t1=$(($(date +%s%N)/1000000))
-echo "FZF loading took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "FZF loading took $((t1-t0))ms"
+fi
 
 # JENV lazy loading
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 export PATH="$HOME/.jenv/bin:$PATH"
 
 jenv() {
@@ -141,15 +169,21 @@ javac() {
     eval "$(command jenv init -)"
     javac "$@"
 }
-t1=$(($(date +%s%N)/1000000))
-echo "JENV setup took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "JENV setup took $((t1-t0))ms"
+fi
 
 # Load environment
-t0=$(($(date +%s%N)/1000000))
+if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
-t1=$(($(date +%s%N)/1000000))
-echo "Loading environment took $((t1-t0))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    t1=$(($(date +%s%N)/1000000))
+    log_time "Loading environment took $((t1-t0))ms"
+fi
 
 # Total time
-TIMER_END=$(($(date +%s%N)/1000000))
-echo "Total loading time: $((TIMER_END-TIMER))ms"
+if [ "$ENABLE_TIMING_LOGS" = true ]; then
+    TIMER_END=$(($(date +%s%N)/1000000))
+    log_time "Total loading time: $((TIMER_END-TIMER))ms"
+fi
