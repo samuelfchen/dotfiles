@@ -1,32 +1,26 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Start total time measurement
+TIMER=$(($(date +%s%N)/1000000))
+echo "Starting zsh initialization..."
+
+# Enable Powerlevel10k instant prompt
+t0=$(($(date +%s%N)/1000000))
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+t1=$(($(date +%s%N)/1000000))
+echo "p10k instant prompt took $((t1-t0))ms"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# Set name of the theme to load
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# Auto-update behavior
+zstyle ':omz:update' mode auto
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+# Plugin loading
+t0=$(($(date +%s%N)/1000000))
 plugins=(
   git
   z
@@ -35,48 +29,78 @@ plugins=(
   zsh-vi-mode
   fast-syntax-highlighting
 )
-
 source $ZSH/oh-my-zsh.sh
+t1=$(($(date +%s%N)/1000000))
+echo "oh-my-zsh and plugins took $((t1-t0))ms"
 
-# User configuration
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# p10k configuration
+t0=$(($(date +%s%N)/1000000))
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
+t1=$(($(date +%s%N)/1000000))
+echo "p10k configuration took $((t1-t0))ms"
 
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 
-export PATH="${HOME}/.pyenv/shims:${PATH}"
-export PATH="$(yarn global bin):${PATH}"
+# PATH modifications
+t0=$(($(date +%s%N)/1000000))
+path_additions=(
+  "$HOME/.pyenv/shims"
+  "$HOME/bin/nvim/bin"
+)
+export PATH="${(j.:.)path_additions}:$PATH"
 
-### NVM setup and config
+# Cache yarn global bin path - adjust this path if different
+YARN_GLOBAL_BIN="$HOME/.yarn/bin"
+[[ -d $YARN_GLOBAL_BIN ]] && export PATH="$YARN_GLOBAL_BIN:$PATH"
+t1=$(($(date +%s%N)/1000000))
+echo "PATH modifications took $((t1-t0))ms"
 
+# NVM setup and config
+t0=$(($(date +%s%N)/1000000))
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# temporary fix for devbox
-nvm deactivate --silent
+# Lazy load nvm
+nvm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    nvm "$@"
+}
 
-# Source aliases
+# Lazy load node-related commands
+node() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    node "$@"
+}
+
+npm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    npm "$@"
+}
+
+npx() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    npx "$@"
+}
+t1=$(($(date +%s%N)/1000000))
+echo "NVM setup took $((t1-t0))ms"
+
+# Source additional files
+t0=$(($(date +%s%N)/1000000))
 source ~/.alias
 test -f ~/.private && source ~/.private
+t1=$(($(date +%s%N)/1000000))
+echo "Loading additional files took $((t1-t0))ms"
 
-# Autoload NVM 
-# https://stackoverflow.com/questions/57110542/how-to-write-a-nvmrc-file-which-automatically-change-node-version
+# NVM autoload setup
+t0=$(($(date +%s%N)/1000000))
 autoload -U add-zsh-hook
 load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
+  local nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
   if [ -n "$nvmrc_path" ]; then
+    local node_version="$(nvm version)"
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
     if [ "$nvmrc_node_version" = "N/A" ]; then
@@ -84,16 +108,48 @@ load-nvmrc() {
     elif [ "$nvmrc_node_version" != "$node_version" ]; then
       nvm use --silent
     fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    # echo "Reverting to nvm default version"
-    nvm use default --silent
   fi
 }
 add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-export PATH="$HOME/bin/nvim/bin:$PATH"
+t1=$(($(date +%s%N)/1000000))
+echo "NVM autoload setup took $((t1-t0))ms"
 
-. "$HOME/.local/bin/env"
+# FZF
+t0=$(($(date +%s%N)/1000000))
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+t1=$(($(date +%s%N)/1000000))
+echo "FZF loading took $((t1-t0))ms"
+
+# JENV lazy loading
+t0=$(($(date +%s%N)/1000000))
+export PATH="$HOME/.jenv/bin:$PATH"
+
+jenv() {
+    unset -f jenv
+    eval "$(command jenv init -)"
+    jenv "$@"
+}
+
+java() {
+    unset -f java
+    eval "$(command jenv init -)"
+    java "$@"
+}
+
+javac() {
+    unset -f javac
+    eval "$(command jenv init -)"
+    javac "$@"
+}
+t1=$(($(date +%s%N)/1000000))
+echo "JENV setup took $((t1-t0))ms"
+
+# Load environment
+t0=$(($(date +%s%N)/1000000))
+[[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
+t1=$(($(date +%s%N)/1000000))
+echo "Loading environment took $((t1-t0))ms"
+
+# Total time
+TIMER_END=$(($(date +%s%N)/1000000))
+echo "Total loading time: $((TIMER_END-TIMER))ms"
