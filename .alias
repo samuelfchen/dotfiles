@@ -74,3 +74,8 @@ intellij() {
   /opt/devenv/stop-intellij-server.sh jira
   /opt/devenv/establish-intellij-connection.sh jira
 }
+
+assh() {
+  atlas devenv remote ssh --profile "$@"
+}
+
