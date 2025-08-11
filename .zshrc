@@ -151,6 +151,7 @@ fi
 # JENV lazy loading
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 export PATH="$HOME/.jenv/bin:$PATH"
+<<<<<<< HEAD
 
 jenv() {
     unset -f jenv
@@ -187,3 +188,6 @@ if [ "$ENABLE_TIMING_LOGS" = true ]; then
     TIMER_END=$(($(date +%s%N)/1000000))
     log_time "Total loading time: $((TIMER_END-TIMER))ms"
 fi
+
+export PATH="$HOME/bin/nvim/bin:$PATH"
+export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
