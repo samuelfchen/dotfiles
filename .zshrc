@@ -37,6 +37,7 @@ zstyle ':omz:update' mode auto
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 plugins=(
   git
+  nvm
   z
   fzf
   zsh-autosuggestions
@@ -77,33 +78,11 @@ fi
 
 # NVM setup and config
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
-export NVM_DIR="$HOME/.nvm"
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm --version > /dev/null 2>&1
 
-# Lazy load nvm
-nvm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    nvm "$@"
-}
-
-# Lazy load node-related commands
-node() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    node "$@"
-}
-
-npm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    npm "$@"
-}
-
-npx() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    npx "$@"
-}
 if [ "$ENABLE_TIMING_LOGS" = true ]; then
     t1=$(($(date +%s%N)/1000000))
     log_time "NVM setup took $((t1-t0))ms"
@@ -120,21 +99,49 @@ fi
 
 # NVM autoload setup
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+
+# place this after nvm initialization!
 autoload -U add-zsh-hook
+
+# Flag to track initial load
+_NVMRC_INITIAL_LOAD=true
+
 load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
   if [ -n "$nvmrc_path" ]; then
-    local node_version="$(nvm version)"
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
     if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
+      if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
+        nvm install > /dev/null 2>&1
+      else
+        nvm install
+      fi
     elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use --silent
+      if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
+        nvm use > /dev/null 2>&1
+      else
+        nvm use
+      fi
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
+      nvm use default > /dev/null 2>&1
+    else
+      echo "Reverting to nvm default version"
+      nvm use default
     fi
   fi
+  
+  # After first run, allow output
+  _NVMRC_INITIAL_LOAD=false
 }
+
 add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 if [ "$ENABLE_TIMING_LOGS" = true ]; then
     t1=$(($(date +%s%N)/1000000))
     log_time "NVM autoload setup took $((t1-t0))ms"
@@ -151,7 +158,6 @@ fi
 # JENV lazy loading
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 export PATH="$HOME/.jenv/bin:$PATH"
-<<<<<<< HEAD
 
 jenv() {
     unset -f jenv
