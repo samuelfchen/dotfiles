@@ -88,6 +88,13 @@ if [ "$ENABLE_TIMING_LOGS" = true ]; then
     log_time "NVM setup took $((t1-t0))ms"
 fi
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# temporary fix for devbox
+nvm deactivate --silent
+
 # Source additional files
 if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
 source ~/.alias
@@ -194,6 +201,5 @@ if [ "$ENABLE_TIMING_LOGS" = true ]; then
     TIMER_END=$(($(date +%s%N)/1000000))
     log_time "Total loading time: $((TIMER_END-TIMER))ms"
 fi
-
 export PATH="$HOME/bin/nvim/bin:$PATH"
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"

@@ -45,14 +45,13 @@ kp() {
 
 ## atlassian stuff synced across machines
 
-jiraclean() {
+afmclean() {
 	rm -rf node-modules/
 	rm -rf .parcel-*/
-	rm -rf build/
 	yarn cache clean
 	atlas tunnel clean
 	nvm use
-	yarn
+	afm install
 };
 
 alias fixtunnel='atlas tunnel start --port 8080'
@@ -68,6 +67,10 @@ jiraupdate() {
 
 nin() {
  yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
+}
+
+calendar() {
+ yarn start jira-spa --routes=software-calendar,business-calendar --no-lazy
 }
 
 intellij() {
