@@ -82,4 +82,4 @@ assh() {
   atlas devenv remote ssh --profile "$@"
 }
 
-alias notify="echo command completed"
+alias notify="it2attention start"
