@@ -204,4 +204,5 @@ fi
 export PATH="$HOME/bin/nvim/bin:$PATH"
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
 
-source ~/.iterm2_shell_integration.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
