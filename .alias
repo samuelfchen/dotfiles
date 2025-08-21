@@ -82,4 +82,5 @@ assh() {
   atlas devenv remote ssh --profile "$@"
 }
 
-alias notify="it2attention start"
+alias notify="it2attention start && it2attention fireworks"
+alias n="notify"
