@@ -205,3 +205,15 @@ export PATH="$HOME/bin/nvim/bin:$PATH"
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export PATH="${HOME}/.local/bin:$PATH"
+
+# for empanda signalfx
+export TF_VAR_signalfx_auth_token="4rgmWFrwRTFc7HiL73phoA"
+
+# bun completions
+[ -s "/home/ubuntu/.bun/_bun" ] && source "/home/ubuntu/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
