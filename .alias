@@ -65,6 +65,10 @@ jiraupdate() {
 	git commit -m 'update relay'
 }
 
+list() {
+ yarn start jira-spa --routes=software-list --no-lazy
+}
+
 nin() {
  yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
