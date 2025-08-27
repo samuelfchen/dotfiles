@@ -4,8 +4,6 @@ ENABLE_TIMING_LOGS=false
 # Timing function
 function log_time() {
     if [ "$ENABLE_TIMING_LOGS" = true ]; then
-        echo "$@"
-    fi
 }
 
 # Start total time measurement
@@ -208,6 +206,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH="${HOME}/.local/bin:$PATH"
 
+<<<<<<< HEAD
 # bun completions
 [ -s "/home/ubuntu/.bun/_bun" ] && source "/home/ubuntu/.bun/_bun"
 
