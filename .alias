@@ -82,6 +82,10 @@ timeline-no-local() {
  yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy --no-local
 }
 
+list-local() {
+ yarn start jira-spa-issue-navigator --routes=software-list --no-lazy --no-local
+}
+
 nin() {
  yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
