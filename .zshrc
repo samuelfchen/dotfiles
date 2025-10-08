@@ -230,3 +230,5 @@ zvm_vi_yank() {
 
     zvm_exit_visual_mode
 }
+=======
+>>>>>>> dc82de1 (update)
