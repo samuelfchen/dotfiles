@@ -218,20 +218,18 @@ export TF_VAR_signalfx_auth_token="4rgmWFrwRTFc7HiL73phoA"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# yank from vi
-# # vi mode
-bindkey -v
+# Yank from vi
+zvm_vi_yank() {
+    zvm_yank
 
-# Yank to the system clipboard
-function vi-yank-ssh {
-    zle vi-yank
+    # Use a subshell to run the clipboard command based on SSH status
     if [[ -n "$SSH_CONNECTION" ]]; then
         # Use it2copy for SSH sessions
-        echo "$CUTBUFFER" | it2copy
+        (printf %s "${CUTBUFFER}" | it2copy)
     else
         # Use pbcopy for local sessions (macOS)
-        echo "$CUTBUFFER" | pbcopy -i
+        (printf %s "${CUTBUFFER}" | pbcopy)
     fi
+
+    zvm_exit_visual_mode
 }
-zle -N vi-yank-ssh
-bindkey -M vicmd 'y' vi-yank-ssh
