@@ -73,6 +73,11 @@ list-local() {
  yarn start jira-spa-issue-navigator --routes=software-list --no-lazy --no-local
 }
 
+
+list-no-local() {
+ yarn start jira-spa --routes=software-list --no-lazy
+}
+
 nin() {
  yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
