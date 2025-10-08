@@ -43,7 +43,6 @@ plugins=(
   zsh-autosuggestions
   zsh-vi-mode
   zsh-system-clipboard
-  fast-syntax-highlighting
 )
 source $ZSH/oh-my-zsh.sh
 if [ "$ENABLE_TIMING_LOGS" = true ]; then
@@ -218,3 +217,21 @@ export TF_VAR_signalfx_auth_token="4rgmWFrwRTFc7HiL73phoA"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# yank from vi
+# # vi mode
+bindkey -v
+
+# Yank to the system clipboard
+function vi-yank-ssh {
+    zle vi-yank
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        # Use it2copy for SSH sessions
+        echo "$CUTBUFFER" | it2copy
+    else
+        # Use pbcopy for local sessions (macOS)
+        echo "$CUTBUFFER" | pbcopy -i
+    fi
+}
+zle -N vi-yank-ssh
+bindkey -M vicmd 'y' vi-yank-ssh
