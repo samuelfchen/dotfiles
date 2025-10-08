@@ -42,6 +42,7 @@ plugins=(
   fzf
   zsh-autosuggestions
   zsh-vi-mode
+  zsh-system-clipboard
   fast-syntax-highlighting
 )
 source $ZSH/oh-my-zsh.sh
