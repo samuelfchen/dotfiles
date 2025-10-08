@@ -95,5 +95,9 @@ assh() {
   atlas devenv remote ssh --profile "$@"
 }
 
+atlasupgrade() {
+  atlas upgrade --skip-plugins && atlas plugin upgrade -n devenv
+}
+
 alias notify="it2attention start && it2attention fireworks"
 alias n="notify"
