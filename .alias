@@ -69,13 +69,13 @@ list() {
  yarn start jira-spa --routes=software-list,business-list --no-lazy
 }
 
-list-local() {
+list-no-local() {
  yarn start jira-spa-issue-navigator --routes=software-list --no-lazy --no-local
 }
 
 
-list-no-local() {
- yarn start jira-spa --routes=software-list --no-lazy
+timeline() {
+ yarn start jira-spa --routes=software-timeline,business-timeline --no-lazy
 }
 
 timeline() {
