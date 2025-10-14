@@ -208,8 +208,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH="${HOME}/.local/bin:$PATH"
 
-# for empanda signalfx
-
 # bun completions
 [ -s "/home/ubuntu/.bun/_bun" ] && source "/home/ubuntu/.bun/_bun"
 
