@@ -75,11 +75,11 @@ list-no-local() {
 
 
 timeline() {
- yarn start jira-spa --routes=software-timeline,business-timeline --no-lazy
+ yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy
 }
 
-timeline() {
- yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy
+timeline-no-local() {
+ yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy --no-local
 }
 
 nin() {
