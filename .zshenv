@@ -1,0 +1,1 @@
+export DISABLE_ZSH_DEFAULT_PROMPT=true
