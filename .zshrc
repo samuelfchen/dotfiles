@@ -1,117 +1,152 @@
-# Set to true to enable timing logs
-ENABLE_TIMING_LOGS=false
+# ============================================================================
+# ZSH CONFIGURATION
+# ============================================================================
 
-# Timing function
-function log_time() {
-    if [ "$ENABLE_TIMING_LOGS" = true ]; then
-}
-
-# Start total time measurement
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    TIMER=$(($(date +%s%N)/1000000))
-    log_time "Starting zsh initialization..."
+# ----------------------------------------------------------------------------
+# Performance Profiling (set to true to debug slow startup)
+# ----------------------------------------------------------------------------
+PROFILE_STARTUP=false
+if [[ "$PROFILE_STARTUP" == true ]]; then
+    zmodload zsh/zprof
+    PS4=$'%D{%M%S%.} %N:%i> '
+    exec 3>&2 2>/tmp/zsh_profile.$$
+    setopt xtrace prompt_subst
 fi
 
-# Enable Powerlevel10k instant prompt
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+# ----------------------------------------------------------------------------
+# Powerlevel10k Instant Prompt
+# ----------------------------------------------------------------------------
+# Must stay at the top for instant prompt to work properly
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "p10k instant prompt took $((t1-t0))ms"
-fi
 
-# Path to your oh-my-zsh installation.
+# ----------------------------------------------------------------------------
+# Oh-My-Zsh Configuration
+# ----------------------------------------------------------------------------
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Auto-update behavior
 zstyle ':omz:update' mode auto
 
-# Plugin loading
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+# Note: Removed 'nvm' plugin to avoid duplicate NVM loading (was causing 3x load)
+# NVM is initialized manually below for better control and performance
 plugins=(
   git
-  nvm
   z
   fzf
   zsh-autosuggestions
   zsh-vi-mode
   fast-syntax-highlighting
 )
+
 source $ZSH/oh-my-zsh.sh
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "oh-my-zsh and plugins took $((t1-t0))ms"
-fi
 
-# p10k configuration
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+# Load Powerlevel10k configuration
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "p10k configuration took $((t1-t0))ms"
-fi
 
+# ----------------------------------------------------------------------------
+# Vi Mode Configuration
+# ----------------------------------------------------------------------------
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 
-# PATH modifications
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
-path_additions=(
-  "$HOME/.pyenv/shims"
-  "$HOME/bin/nvim/bin"
-)
-export PATH="${(j.:.)path_additions}:$PATH"
+# Custom vi-mode yank function (copy to system clipboard)
+zvm_vi_yank() {
+    zvm_yank
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        (printf %s "${CUTBUFFER}" | it2copy)
+    else
+        (printf %s "${CUTBUFFER}" | pbcopy)
+    fi
+    zvm_exit_visual_mode
+}
 
-# Cache yarn global bin path - adjust this path if different
-YARN_GLOBAL_BIN="$HOME/.yarn/bin"
-[[ -d $YARN_GLOBAL_BIN ]] && export PATH="$YARN_GLOBAL_BIN:$PATH"
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "PATH modifications took $((t1-t0))ms"
-fi
+# ----------------------------------------------------------------------------
+# PATH Configuration
+# ----------------------------------------------------------------------------
+# Consolidate all PATH modifications in one place for clarity
+export PATH="$HOME/.pyenv/shims:$PATH"
+export PATH="$HOME/bin/nvim/bin:$PATH"
+export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
 
-# NVM setup and config
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm --version > /dev/null 2>&1
+# Yarn global binaries
+[[ -d "$HOME/.yarn/bin" ]] && export PATH="$HOME/.yarn/bin:$PATH"
 
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "NVM setup took $((t1-t0))ms"
-fi
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ----------------------------------------------------------------------------
+# NVM (Node Version Manager) Configuration - LAZY LOADED
+# ----------------------------------------------------------------------------
+# NVM is lazy-loaded to improve startup time (saves ~2 seconds)
+# It will initialize automatically when:
+#   1. You run node, npm, npx, or nvm commands
+#   2. You cd into a directory with .nvmrc file
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+_NVM_LOADED=false
 
-# temporary fix for devbox
-nvm deactivate --silent
+# Function to initialize NVM (called by lazy-load wrappers)
+_init_nvm() {
+  if [ "$_NVM_LOADED" = false ]; then
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    
+    # Temporary fix for devbox compatibility
+    nvm deactivate --silent 2>/dev/null
+    
+    _NVM_LOADED=true
+    
+    # After loading, check current directory for .nvmrc
+    _load_nvmrc_if_present
+  fi
+}
 
-# Source additional files
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
-source ~/.alias
-test -f ~/.private && source ~/.private
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "Loading additional files took $((t1-t0))ms"
-fi
+# Lazy-load wrappers for common commands
+nvm() {
+  unset -f nvm
+  _init_nvm
+  nvm "$@"
+}
 
-# NVM autoload setup
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+node() {
+  unset -f node
+  _init_nvm
+  node "$@"
+}
 
-# place this after nvm initialization!
-autoload -U add-zsh-hook
+npm() {
+  unset -f npm
+  _init_nvm
+  npm "$@"
+}
 
-# Flag to track initial load
-_NVMRC_INITIAL_LOAD=true
+npx() {
+  unset -f npx
+  _init_nvm
+  npx "$@"
+}
 
-load-nvmrc() {
+# Helper function to find .nvmrc without NVM loaded
+_find_nvmrc() {
+  local dir="$PWD"
+  while [ "$dir" != "/" ]; do
+    if [ -f "$dir/.nvmrc" ]; then
+      echo "$dir/.nvmrc"
+      return
+    fi
+    dir="$(dirname "$dir")"
+  done
+}
+
+# Auto-switch Node version based on .nvmrc files
+_load_nvmrc_if_present() {
+  if [ "$_NVM_LOADED" = false ]; then
+    return
+  fi
+  
   local node_version="$(nvm version)"
   local nvmrc_path="$(nvm_find_nvmrc)"
 
@@ -119,51 +154,42 @@ load-nvmrc() {
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
     if [ "$nvmrc_node_version" = "N/A" ]; then
-      if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
-        nvm install > /dev/null 2>&1
-      else
-        nvm install
-      fi
+      nvm install
     elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
-        nvm use > /dev/null 2>&1
-      else
-        nvm use
-      fi
+      nvm use
     fi
   elif [ "$node_version" != "$(nvm version default)" ]; then
-    if [ "$_NVMRC_INITIAL_LOAD" = true ]; then
-      nvm use default > /dev/null 2>&1
-    else
-      echo "Reverting to nvm default version"
-      nvm use default
-    fi
+    echo "Reverting to nvm default version"
+    nvm use default
   fi
-  
-  # After first run, allow output
-  _NVMRC_INITIAL_LOAD=false
 }
 
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# Hook that runs when changing directories
+_nvm_auto_switch() {
+  if [ -n "$(_find_nvmrc)" ]; then
+    # Found .nvmrc, initialize NVM if not loaded
+    if [ "$_NVM_LOADED" = false ]; then
+      _init_nvm
+    else
+      # NVM already loaded, just switch version
+      _load_nvmrc_if_present
+    fi
+  fi
+}
 
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "NVM autoload setup took $((t1-t0))ms"
-fi
+# Set up the directory change hook
+autoload -U add-zsh-hook
+add-zsh-hook chpwd _nvm_auto_switch
 
-# FZF
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+# ----------------------------------------------------------------------------
+# FZF (Fuzzy Finder) Configuration
+# ----------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "FZF loading took $((t1-t0))ms"
-fi
 
-# JENV lazy loading
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
-export PATH="$HOME/.jenv/bin:$PATH"
-
+# ----------------------------------------------------------------------------
+# JENV (Java Environment Manager) - Lazy Loading
+# ----------------------------------------------------------------------------
+# Lazy load jenv to improve startup time (only initializes when first used)
 jenv() {
     unset -f jenv
     eval "$(command jenv init -)"
@@ -181,50 +207,33 @@ javac() {
     eval "$(command jenv init -)"
     javac "$@"
 }
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "JENV setup took $((t1-t0))ms"
-fi
 
-# Load environment
-if [ "$ENABLE_TIMING_LOGS" = true ]; then t0=$(($(date +%s%N)/1000000)); fi
+# ----------------------------------------------------------------------------
+# Additional Sources
+# ----------------------------------------------------------------------------
+# Aliases
+source ~/.alias
+
+# Private configuration (not version controlled)
+test -f ~/.private && source ~/.private
+
+# Custom environment variables
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    t1=$(($(date +%s%N)/1000000))
-    log_time "Loading environment took $((t1-t0))ms"
-fi
 
-# Total time
-if [ "$ENABLE_TIMING_LOGS" = true ]; then
-    TIMER_END=$(($(date +%s%N)/1000000))
-    log_time "Total loading time: $((TIMER_END-TIMER))ms"
-fi
-export PATH="$HOME/bin/nvim/bin:$PATH"
-export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
-
+# iTerm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="${HOME}/.local/bin:$PATH"
-
-# bun completions
+# Bun completions
 [ -s "/home/ubuntu/.bun/_bun" ] && source "/home/ubuntu/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Yank from vi
-zvm_vi_yank() {
-    zvm_yank
-
-    # Use a subshell to run the clipboard command based on SSH status
-    if [[ -n "$SSH_CONNECTION" ]]; then
-        # Use it2copy for SSH sessions
-        (printf %s "${CUTBUFFER}" | it2copy)
-    else
-        # Use pbcopy for local sessions (macOS)
-        (printf %s "${CUTBUFFER}" | pbcopy)
-    fi
-
-    zvm_exit_visual_mode
-}
+# ----------------------------------------------------------------------------
+# Performance Profiling Output
+# ----------------------------------------------------------------------------
+if [[ "$PROFILE_STARTUP" == true ]]; then
+    unsetopt xtrace
+    exec 2>&3 3>&-
+    echo "\n=== ZSH Startup Profile ==="
+    echo "Detailed trace written to: /tmp/zsh_profile.$$"
+    echo "\n=== Top 20 Slowest Functions ==="
+    zprof | head -n 20
+fi
