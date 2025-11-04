@@ -237,3 +237,4 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     echo "\n=== Top 20 Slowest Functions ==="
     zprof | head -n 20
 fi
+export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
