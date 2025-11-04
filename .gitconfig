@@ -104,6 +104,7 @@
 	repo = /home/ubuntu/atlassian-frontend-monorepo
 	repo = /home/ubuntu/afm-secondary
 	repo = /Users/schen5/atlassian/afm-1
+	repo = /Users/schen5/atlassian/afm-2
 [trace2]
 	eventTarget = af_unix:/Users/schen5/.gittrace/trace.sock
 	eventBrief = true
