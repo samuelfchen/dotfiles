@@ -109,3 +109,15 @@ atlasupgrade() {
 
 alias notify="it2attention start && it2attention fireworks"
 alias n="notify"
+
+by() {
+  branch=$(git rev-parse --abbrev-ref HEAD | tr -d '\n')
+  if command -v it2copy &> /dev/null; then
+    echo -n "$branch" | it2copy
+  elif command -v pbcopy &> /dev/null; then
+    echo -n "$branch" | pbcopy
+  else
+    echo "$branch"
+    echo "(clipboard not available)" >&2
+  fi
+}

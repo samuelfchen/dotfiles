@@ -10,7 +10,6 @@
 	st = status
 	c = commit
 	br = branch
-	by = "!f(){ branch=$(git rev-parse --abbrev-ref HEAD | tr -d '\n'); if command -v it2copy &> /dev/null; then echo -n \"$branch\" | it2copy; elif command -v pbcopy &> /dev/null; then echo -n \"$branch\" | pbcopy; else echo \"$branch\" && echo \"(clipboard not available)\" >&2; fi; }; f"
 	b = rev-parse --abbrev-ref HEAD
 	co = checkout
 	fcom = !git fetch && git checkout master
