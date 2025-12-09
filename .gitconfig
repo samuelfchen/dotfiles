@@ -105,7 +105,7 @@
 	repo = /Users/schen5/atlassian/afm-1
 	repo = /Users/schen5/atlassian/afm-2
 [trace2]
-	eventTarget = af_unix:/Users/schen5/.gittrace/trace.sock
+	eventTarget = af_unix:/home/ubuntu/.gittrace/trace.sock
 	eventBrief = true
 	eventNesting = 1
 	configparams = custom.metacommands
@@ -116,4 +116,7 @@
 	cloneBranch = master
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1753165920
+	lastrun = 1765246283
+[afm]
+	binPathManagerScriptHash = 2064e7dbecb4f6f491309b244c13954c265d56ff
+	binPathManagerScriptTimestamp = 1763078148

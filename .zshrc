@@ -241,3 +241,4 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     zprof | head -n 20
 fi
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
+if [ -f "$HOME/.afm-bin-path-manager.zsh" ]; then source "$HOME/.afm-bin-path-manager.zsh"; fi
