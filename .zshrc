@@ -208,7 +208,7 @@ javac() {
     javac "$@"
 }
 
-export JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto
+export JAVA_HOME=/Users/schen5/.jenv/versions/21
 export PATH=$JAVA_HOME/bin:$PATH
 
 # ----------------------------------------------------------------------------

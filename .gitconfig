@@ -18,6 +18,7 @@
 	bn = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
 	rb = rebase
 	rbm = rebase master
+	rbcm = rebase origin/ci/cached-master
 	pr = !sh -c 'BRANCH_NAME=$(git bn) && git co $0 && git fe && git merge --ff-only origin/$0 && git co $BRANCH_NAME && git rb $0'
 	pmr = !git pr master
 	who = shortlog -s --
@@ -76,7 +77,7 @@
 	rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
 	sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
 	cor = !f() {         git fetch origin "$1:$1" &&         git checkout "$1";     }; f
-	hooks = !\"/home/ubuntu/.githooks/bin/githooks\"
+	hooks = !\"/Users/schen5/.githooks/bin/githooks\"
 [push]
 	default = current
 	autoSetupRemote = true
@@ -105,18 +106,20 @@
 	repo = /Users/schen5/atlassian/afm-1
 	repo = /Users/schen5/atlassian/afm-2
 [trace2]
-	eventTarget = af_unix:/home/ubuntu/.gittrace/trace.sock
+	eventTarget = af_unix:/Users/schen5/.gittrace/trace.sock
 	eventBrief = true
 	eventNesting = 1
 	configparams = custom.metacommands
 [githooks]
-	installDir = /home/ubuntu/.githooks
-	runner = /home/ubuntu/.githooks/release/base-template.sh
+	installDir = /Users/schen5/.githooks
+	runner = /Users/schen5/.githooks/release/base-template.sh
 	cloneUrl = https://github.com/rycus86/githooks.git
 	cloneBranch = master
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1765335643
+	lastrun = 1765940360
 [afm]
 	binPathManagerScriptHash = 2064e7dbecb4f6f491309b244c13954c265d56ff
 	binPathManagerScriptTimestamp = 1763078148
+[oh-my-zsh]
+	hide-info = 1
