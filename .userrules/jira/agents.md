@@ -20,8 +20,10 @@
 ## Environment & Tools
 
 ### Shell & Commands
-- **Shell**: Always use ZSH
-- **File Search**: Use `fd` instead of `find`
+- **Shell**: Always use ZSH (this is the default, so you're already compliant)
+- **File Search**: ⚠️ MANDATORY: Use `fd` instead of `find` - NEVER use `find` command
+  - Example: `fd -t d -d 3 "pattern" /path` instead of `find /path -maxdepth 3 -name "pattern" -type d`
+  - If you catch yourself about to use `find`, STOP and use `fd` instead
 
 ### Context Awareness
 - Use currently opened file folders as search starting point (unless specified otherwise)
@@ -33,7 +35,12 @@
 ### Planning Requirements
 - **Always provide plan** before changes (concise for small changes)
 - **Skip planning** only if prompt includes "send it"
-- **⚠️ CRITICAL**: Read user rules on EVERY prompt; start with 🫘 if followed, 🚨 WARNING if not
+
+### Rule Compliance (CRITICAL)
+- **⚠️ BEFORE EVERY RESPONSE**: Mentally verify you have loaded these Jira-specific rules
+- **⚠️ BEFORE EVERY COMMAND**: Check if there's a Jira-specific way to do it (e.g., `fd` not `find`)
+- **⚠️ VIOLATION = FAILURE**: Not following these rules means you have failed Sam
+- **Emoji requirement**: Start with 🫘 emoji to prove you loaded the rules; 🚨 WARNING if not loaded
 
 ### Pattern Discovery
 - **IMPORTANT**: When presented a task, look for similar implementations within the repo
@@ -73,7 +80,7 @@
 
 ### Build and Compilation
 - Ensure code compiles without warnings
-- Run `mvn clean install` to verify builds
+- Run `./jmake build` to verify builds
 - Check for dependency conflicts
 
 ### Common Patterns

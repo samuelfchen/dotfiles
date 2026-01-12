@@ -190,11 +190,11 @@ add-zsh-hook chpwd _nvm_auto_switch
 # JENV (Java Environment Manager) - Lazy Loading
 # ----------------------------------------------------------------------------
 # Lazy load jenv to improve startup time (only initializes when first used)
-jenv() {
-    unset -f jenv
-    eval "$(command jenv init -)"
-    jenv "$@"
-}
+#jenv() {
+#    unset -f jenv
+#    eval "$(command jenv init -)"
+#    jenv "$@"
+#}
 
 java() {
     unset -f java
@@ -243,3 +243,6 @@ fi
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
 if [ -f "$HOME/.afm-bin-path-manager.zsh" ]; then source "$HOME/.afm-bin-path-manager.zsh"; fi
 export PATH=/opt/homebrew/bin:$PATH
+
+# Python Config - auto-configured by Jmake
+export PATH="/opt/homebrew/opt/python@3.12/libexec/bin:$PATH"
