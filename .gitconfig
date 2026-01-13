@@ -12,7 +12,7 @@
 	br = branch
 	b = rev-parse --abbrev-ref HEAD
 	co = checkout
-	fco = "!f() { git fetch origin $1:$1 && git checkout $1; }; f"
+	fco = "!f() { git fetch origin $1:$1 && git checkout $1 && git branch --set-upstream-to=origin/$1 $1; }; f"
 	fcom = !git fetch && git checkout master
 	com = checkout master
 	fe = fetch --prune origin
@@ -78,7 +78,7 @@
 	rbit = "!f() { git rebase -i $(git merge-base HEAD ${1-master}); }; f"
 	sqm = !git reset --soft $(git merge-base HEAD ${1-master}) && git commit --no-verify -m 'squish'
 	cor = !f() {         git fetch origin "$1:$1" &&         git checkout "$1";     }; f
-	hooks = !\"/Users/schen5/.githooks/bin/githooks\"
+	hooks = !\"/home/ubuntu/.githooks/bin/githooks\"
 [push]
 	default = current
 	autoSetupRemote = true
@@ -112,13 +112,13 @@
 	eventNesting = 1
 	configparams = custom.metacommands
 [githooks]
-	installDir = /Users/schen5/.githooks
-	runner = /Users/schen5/.githooks/release/base-template.sh
+	installDir = /home/ubuntu/.githooks
+	runner = /home/ubuntu/.githooks/release/base-template.sh
 	cloneUrl = https://github.com/rycus86/githooks.git
 	cloneBranch = master
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1768254601
+	lastrun = 1768259135
 [afm]
 	binPathManagerScriptHash = 2064e7dbecb4f6f491309b244c13954c265d56ff
 	binPathManagerScriptTimestamp = 1763078148
