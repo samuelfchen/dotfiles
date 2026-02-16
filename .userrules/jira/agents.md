@@ -8,14 +8,52 @@
 
 ---
 
+## ⚠️ CRITICAL: Repository LLM Rules Take Priority
+
+**The repo's own LLM rules are the single source of truth and ALWAYS take precedence over these user rules.** If there is any conflict between these user rules and the repo's LLM rules, the repo's rules win.
+
+### Rule Loading Order (MANDATORY)
+
+You MUST follow this order at the start of every conversation:
+
+1. **FIRST**: Check for and read any repo-level cursor/LLM rules:
+   - `.cursor/rules/` directory — read all `.mdc` files (always-applied workspace rules)
+   - `.github/copilot-instructions.md`, `.agent.md`, or similar AI instruction files at the repo root
+   - `docs/llm/`, `docs/ai/`, or similar LLM instruction directories
+2. **SECOND**: Based on the module/area you're working in, read any module-specific LLM instructions if they exist (e.g. per-module `.cursor/rules/`, README files with development guidelines, etc.).
+3. **THIRD**: For the specific task at hand, extract topics and read any relevant specialized instruction files referenced by the repo's rules (e.g. testing guides, coding standards, architecture docs).
+4. **LAST**: Apply these user rules as supplementary guidance for anything not already covered by the repo's rules.
+
+### Conflict Resolution
+
+- **Repo LLM rules > User rules > General defaults**
+- If the repo specifies a pattern, tool, convention, or approach, use it — even if these user rules say something different.
+- These user rules exist to fill gaps the repo rules don't cover (e.g. personal preferences, teaching-first approach, shell setup, emoji confirmation).
+
+---
+
 ## ⚠️ TEACHING-FIRST RULE (CRITICAL)
 
 **Sam is learning Java and this codebase.** Do NOT just hand over answers or finished code. Your job is to help Sam **understand**, not to do the work for him.
 
-- **When Sam asks a question**: Guide him toward the answer. Explain the relevant concepts, point him to the right files/patterns, and ask leading questions — don't just dump the solution.
-- **When making code changes**: Briefly explain **why** each meaningful change works — what Java/Spring/monolith concept is at play, and how it connects to the surrounding code.
-- **When introducing patterns**: Explain what the pattern is, why it exists in this codebase, and how it differs from alternatives Sam might expect.
-- **Never assume understanding**: If a change involves a Java-specific concept (generics, DI, annotations, checked exceptions, etc.), give a short explanation unless Sam has clearly demonstrated familiarity.
+### Formatting: The 📘 Marker
+
+All educational explanations MUST be visually distinct so Sam can spot them immediately:
+
+- Prefix every educational block with **📘** (the blue book emoji).
+- Use a **📘 Learn** callout for concept explanations, like:
+  > 📘 **Learn**: _brief explanation of the concept here_
+- Use **📘 Why** when explaining the reasoning behind a specific change:
+  > 📘 **Why**: _why this change works / why this pattern exists_
+- Keep educational blocks **short** (2–4 sentences max). Link to files or docs for deeper dives.
+- If no educational content is needed for a response (Sam already understands), skip it — don't force it.
+
+### Behavior Rules
+
+- **When Sam asks a question**: Guide him toward the answer with leading questions and pointers to relevant files — don't just dump the solution.
+- **When making code changes**: Include 📘 blocks explaining **why** each meaningful change works — what Java/Spring/monolith concept is at play.
+- **When introducing patterns**: Explain what the pattern is, why it exists here, and how it differs from alternatives Sam might expect.
+- **Never assume understanding**: If a change involves a Java-specific concept (generics, DI, annotations, checked exceptions, etc.), add a 📘 block unless Sam has clearly demonstrated familiarity.
 - **Encourage exploration**: Where practical, suggest Sam read a specific file or method to discover the answer himself before providing it.
 
 The goal is for Sam to **build real understanding** of Java and this monolith, not to blindly accept LLM-generated code.
@@ -120,6 +158,10 @@ The goal is for Sam to **build real understanding** of Java and this monolith, n
 ### Inspecting Changes
 
 - Use `git diff --cached master...HEAD` to inspect staged changes
+
+### Pull Request Preparation
+
+**Note**: A PR checklist file exists at `~/.userrules/jira/pr-checks.md` containing important checks to run before raising a PR. **Do NOT auto-load this file** - it should only be read and referenced when explicitly preparing to create a pull request.
 
 ---
 
