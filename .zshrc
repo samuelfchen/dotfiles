@@ -247,3 +247,6 @@ export PATH=/opt/homebrew/bin:$PATH
 # Python Config - auto-configured by Jmake
 export PATH="/opt/homebrew/opt/python@3.12/libexec/bin:$PATH"
 export PATH="$HOME/bin/nvim-linux-x86_64/bin:$PATH"
+
+# git-doctor: shell environment configuration
+[ -f "$HOME/.git-doctor/env.sh" ] && source "$HOME/.git-doctor/env.sh"

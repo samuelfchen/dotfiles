@@ -103,6 +103,10 @@ assh() {
   atlas devenv remote ssh --profile "$@"
 }
 
+abe() {
+  atlas devenv remote acquire --toolbox /home/ubuntu/jira --profile "$@"
+}
+
 atlasupgrade() {
   atlas upgrade --skip-plugins && atlas plugin upgrade -n devenv
 }

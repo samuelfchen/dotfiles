@@ -5,6 +5,30 @@ If any item does not hold, either fix the code or explain why in the PR descript
 
 ---
 
+## ⚠️ MANDATORY: Read Actual Code Before Auditing
+
+**Before starting the checklist, you MUST:**
+
+1. [ ] Run `git diff master` or `git diff master --stat` to see all changed files
+2. [ ] **Read EVERY changed file** using `read_files` tool with the actual file paths
+3. [ ] **Do NOT rely on memory** of what was discussed earlier - code may have changed
+4. [ ] For each checklist item, **quote actual code snippets** from the files you just read
+5. [ ] If you catch yourself saying "the code does X" without quoting it, STOP and re-read the file
+
+**Why this matters:**
+- Files may have been edited since you last saw them
+- Memory is unreliable for code details
+- Skimming leads to missing obvious issues (like redundant comments)
+- Actual code review requires seeing the actual code
+
+**Example of WRONG approach:**
+> "✅ No redundant comments - the code looks clean"
+
+**Example of CORRECT approach:**
+> "❌ Found redundant comment on line 78: `// Must have exactly one type clause` - this is obvious from `if (typeClauses.size() != 1)`, removing it..."
+
+---
+
 ## 1. Correctness & Scope
 
 - [ ] Change is **minimal and focused** on the ticket; no unrelated refactors.
@@ -24,6 +48,8 @@ If any item does not hold, either fix the code or explain why in the PR descript
 ---
 
 ## 3. Structure & Separation of Concerns
+
+**📖 Action Required: Read the actual method implementations to verify structure.**
 
 - [ ] Methods/classes have **single, clear responsibilities** (fetch vs business logic vs mapping).
 - [ ] Non‑trivial logic that is reused (or likely reused) is **extracted** into:
@@ -55,8 +81,23 @@ If any item does not hold, either fix the code or explain why in the PR descript
 
 ## 6. Comments & Naming
 
-- [ ] I **avoided unnecessary comments** that just narrate the code.
-- [ ] Any comments explain **why**, or capture domain quirks / external contracts, not what the code obviously does.
+**📖 Action Required: Read each changed file and inspect EVERY comment line by line.**
+
+- [ ] I **removed ALL redundant comments** that narrate what the code does.
+  - ❌ BAD: `// Parse JQL using native parser` (obvious from `jqlQueryParser.parseQuery()`)
+  - ❌ BAD: `// Extract operator and values` (obvious from variable names)
+  - ❌ BAD: `// Must have exactly one type clause` (obvious from `if (size != 1)`)
+  - ❌ BAD: `// Single value: type = "Epic"` (obvious from `instanceof SingleValueOperand`)
+  - ✅ GOOD: `// Invalid JQL - return false (conservative approach)` (explains WHY)
+  - ✅ GOOD: `// Note: isValid() checks if clauses are inside OR/NOT despite the vague name` (explains quirk)
+  - ✅ GOOD: `// Functions and empty operands - conservative fallback` (explains strategy)
+  
+- [ ] **Rule: If the code is self-explanatory, DELETE the comment.** Only keep comments that explain:
+  - WHY a decision was made (not WHAT the code does)
+  - Domain quirks or business rules that aren't obvious from code
+  - External API contracts or confusing terminology
+  - Workarounds or non-obvious edge cases
+  
 - [ ] Names for variables/methods/fields are **clear and descriptive**, matching local conventions.
 
 ---
@@ -73,6 +114,8 @@ If any item does not hold, either fix the code or explain why in the PR descript
 ---
 
 ## 8. Tests
+
+**📖 Action Required: Read both the implementation AND test files to verify coverage.**
 
 - [ ] Existing tests are updated where needed.
 - [ ] New logic (especially parsers/mappers/services) has **unit tests** for:
@@ -91,10 +134,37 @@ If any item does not hold, either fix the code or explain why in the PR descript
 
 ---
 
-## 10. PR Description
+## 10. PR Title & Description
 
-- [ ] PR description briefly explains:
-  - [ ] What changed (1–3 sentences),
-  - [ ] Why it changed,
-  - [ ] Any behavior changes or trade‑offs,
-  - [ ] Any follow‑up work (e.g. cleanup PRs).
+### Title Format
+- [ ] Title includes the **branch issue key** (e.g., "JSC-3650: Refactor JQL parsing")
+- [ ] Title is **concise** and describes the change clearly
+
+### Description Format
+- [ ] Description is **concise** (no unnecessary details)
+- [ ] Description has exactly **two sections**:
+
+#### **Changes** section:
+- [ ] Brief bullet points of what changed
+- [ ] Focus on WHAT, not HOW
+- [ ] 3-5 bullets maximum
+
+#### **Notes** section:
+- [ ] Any behavior changes or trade-offs
+- [ ] Testing approach
+- [ ] Follow-up work (if applicable)
+- [ ] Context reviewers need to know
+
+**Example:**
+
+```markdown
+# Changes
+- Replaced regex-based JQL parsing with native `JqlQueryParser`
+- Now uses platform's `SimpleNavigatorCollectorVisitor` for OR/NOT detection
+- Removed 45 lines of custom regex and recursion code
+
+# Notes
+- Also rejects type clauses inside NOT (safer, conservative approach)
+- All 36 tests pass (34 existing + 4 new edge cases)
+- No follow-up work needed
+```

@@ -6,6 +6,8 @@
 
 **Confirmation Required**: You MUST start EVERY message with the 🫘 emoji to confirm you have loaded and understood these rules.
 
+**Build Verification Required (Cursor only)**: You MUST run `./jmake build` after making ANY code changes. Cursor has NO working LSP/linter in this repo — the build is the ONLY way to verify compilation. Do NOT trust `ReadLints` output. Do NOT skip this step. See [LSP Awareness](#lsp-awareness-cursor-only) for details.
+
 ---
 
 ## ⚠️ CRITICAL: Repository LLM Rules Take Priority
@@ -77,6 +79,14 @@ The goal is for Sam to **build real understanding** of Java and this monolith, n
   - Example: `fd -t d -d 3 "pattern" /path` instead of `find /path -maxdepth 3 -name "pattern" -type d`
   - If you catch yourself about to use `find`, STOP and use `fd` instead
 
+### LSP Awareness (Cursor only)
+
+The following rules apply **ONLY when you are running inside Cursor**. Agents running in IntelliJ or other IDEs with a working Java LSP should skip this section entirely.
+
+- ⚠️ **Cursor is NOT LSP-aware in this repo.** The Jira monolith is too large and has too complex a build/LSP setup for Cursor's language server to work reliably. Do NOT trust linter output or assume you have accurate type/import resolution.
+- **Always run `./jmake build`** after making code changes to verify compilation. This is the only reliable way to catch compilation errors when working in Cursor.
+- If you are NOT in Cursor (e.g. IntelliJ with working LSP), rely on your LSP diagnostics as normal — you do not need to run `./jmake build` for every change.
+
 ### Context Awareness
 
 - Use currently opened file folders as search starting point (unless specified otherwise)
@@ -142,7 +152,7 @@ The goal is for Sam to **build real understanding** of Java and this monolith, n
 ### Build and Compilation
 
 - Ensure code compiles without warnings
-- Run `./jmake build` to verify builds
+- **In Cursor only**: Since Cursor lacks LSP in this repo, always run `./jmake build` after making code changes to verify compilation. Do not rely on linter diagnostics alone.
 - Check for dependency conflicts
 
 ### Common Patterns
