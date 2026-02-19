@@ -98,3 +98,10 @@ These apply to all repositories and contexts:
 - Follow existing code patterns and conventions in the project
 - Ask for clarification when requirements are ambiguous
 - Provide context and reasoning for technical decisions
+
+### Git Operations
+
+- **Never use `git commit` without `-m`** — Sam's git editor is nvim; opening an interactive editor for commit messages can fail or hang in agent contexts. Always use `git commit -m "message"` to pass the message inline.
+- **Prefer Sam's git aliases** when committing — See `~/.gitconfig` for aliases. Useful ones:
+  - `git cm "message"` — commit with message (equivalent to `git commit -m`)
+  - `git ac "message"` — add all and commit with message
