@@ -37,6 +37,8 @@ These are global rules that apply to ALL interactions. You MUST follow these ins
 
 **Load the correct rules based on repository:**
 
+⚠️ **Repository rules are NOT auto-injected** — You MUST use the Read tool to fetch rule files. Do not assume they are already in your context.
+
 1. **If working in the `jira` git repository (Java monolith):**
 
    - Repository URL: `atlassian/jira.git`
@@ -47,7 +49,7 @@ These are global rules that apply to ALL interactions. You MUST follow these ins
 2. **If working in the `atlassian-frontend-monorepo` git repository:**
 
    - Repository URL: `atlassian-frontend-monorepo.git`
-   - Load and follow ALL rules from: `~/.userrules/afm/agents.md`
+   - **Read** `~/.userrules/afm/agents.md` using the Read tool — this is MANDATORY and must be done at the start of every conversation
    - These rules contain React/TypeScript and AFM-specific guidelines
    - **This includes work in the `/jira` subdirectory of AFM!**
    - Confirmation: Start every message with 🎨 emoji
@@ -73,7 +75,7 @@ At the start of each conversation:
 - [ ] Check workspace path in `<user_info>` for quick identification
 - [ ] Read `.git/config` (navigate up from workspace if needed) to verify repository
 - [ ] Identify which git repository based on the remote URL
-- [ ] Load the corresponding repository-specific rules file
+- [ ] Load the corresponding repository-specific rules file (use Read tool: ~/.userrules/afm/agents.md for AFM, ~/.userrules/jira/agents.md for Jira)
 - [ ] Apply the appropriate emoji prefix to confirm rule loading
 
 **During every conversation:**
