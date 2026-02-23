@@ -104,6 +104,11 @@ These apply to all repositories and contexts:
 ### Git Operations
 
 - **Never use `git commit` without `-m`** — Sam's git editor is nvim; opening an interactive editor for commit messages can fail or hang in agent contexts. Always use `git commit -m "message"` to pass the message inline.
+- **Avoid git commands that spawn editors** — Sam's default editor is nvim, which will stall the LLM when git tries to open it. Always find ways to skip the editor:
+  - Use `-m` flag for commits: `git commit -m "message"`
+  - Use `--no-edit` flag when continuing rebases: `git rebase --continue --no-edit`
+  - Use `GIT_EDITOR=true` to skip editor: `GIT_EDITOR=true git rebase --continue`
+  - Set `-c core.editor=true` inline: `git -c core.editor=true rebase --continue`
 - **Prefer Sam's git aliases** when committing — See `~/.gitconfig` for aliases. Useful ones:
   - `git cm "message"` — commit with message (equivalent to `git commit -m`)
   - `git ac "message"` — add all and commit with message
