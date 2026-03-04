@@ -131,6 +131,18 @@ The following rules apply **ONLY when you are running inside Cursor**. Agents ru
 - **Debug logs**: Prefix with `DEBUG:` for easy filtering
 - Ensure code compiles without warnings
 
+#### Avoid Magic Strings
+
+- **Extract string literals** used as identifiers, field names, or domain constants to `private static final` constants (or shared constants where appropriate).
+- Examples: `Set.of("type", "issuetype")`, JQL field names, clause names, regex capture group names.
+- **Why**: Improves maintainability, enables reuse, and makes refactoring safer. Rovo Dev and similar tools flag inline string literals.
+- **Exception**: One-off test data, log messages, or truly ephemeral strings may stay inline.
+
+#### Test Assertions — Use Specific Exception Types
+
+- When using `assertThrows`, **expect the most specific exception type** (e.g. `JqlParseException`, `IllegalArgumentException`), not `Exception.class` or `RuntimeException.class`.
+- **Why**: Ensures the correct exception is thrown and catches regressions where a different exception type appears.
+
 ### Code References & Navigation
 
 - Include clear file/line links in all code references
@@ -148,6 +160,7 @@ The following rules apply **ONLY when you are running inside Cursor**. Agents ru
 
 - **Test isolation**: Run focused/isolated tests initially, then verify full suite passes
 - **After cleanup**: Run changed tests to verify changes
+- **Functional tests**: Func tests (tests in modules ending with `-tests-func`) are tricky to run in CI due to complex setup requirements (databases, services, etc.). After verifying compilation with `./jmake build`, defer to Sam to run these tests through IntelliJ which has the proper environment configured. Do NOT attempt to run func tests via `jmake test` commands.
 
 ### Build and Compilation
 
