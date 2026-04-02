@@ -161,6 +161,11 @@ The following rules apply **ONLY when you are running inside Cursor**. Agents ru
 - **Test isolation**: Run focused/isolated tests initially, then verify full suite passes
 - **After cleanup**: Run changed tests to verify changes
 - **Functional tests**: Func tests (tests in modules ending with `-tests-func`) are tricky to run in CI due to complex setup requirements (databases, services, etc.). After verifying compilation with `./jmake build`, defer to Sam to run these tests through IntelliJ which has the proper environment configured. Do NOT attempt to run func tests via `jmake test` commands.
+- **CRITICAL - Before Pushing**: Before pushing ANY code changes:
+  1. **ALWAYS verify affected tests pass locally** (use `./jmake test unit run -t TestClassName` or similar)
+  2. If tests fail due to environment issues (AWS credentials, missing dependencies, etc.), document the failure and ask Sam before pushing
+  3. **NEVER push code with untested changes** — this defeats the purpose of having tests
+  4. If local test environment is unavailable, explicitly inform Sam and wait for approval before pushing
 
 ### Build and Compilation
 

@@ -168,3 +168,14 @@ If any item does not hold, either fix the code or explain why in the PR descript
 - All 36 tests pass (34 existing + 4 new edge cases)
 - No follow-up work needed
 ```
+
+## 6. Imports & Code Style
+
+- [ ] **No qualified imports** — all imports are direct, not fully-qualified names in code.
+  - ❌ BAD: `java.time.LocalDate.parse(value)` (fully-qualified)
+  - ❌ BAD: `java.util.Date date = ...` (fully-qualified)
+  - ✅ GOOD: `import java.time.LocalDate;` then use `LocalDate.parse(value)`
+  - ✅ GOOD: `import java.util.Date;` then use `Date date = ...`
+- [ ] All necessary types are properly imported at the top of the file.
+- [ ] No `java.lang.*` qualified names (these should never appear in code).
+

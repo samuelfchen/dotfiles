@@ -65,33 +65,35 @@ jiraupdate() {
 	git commit -m 'update relay'
 }
 
+alias spa='JIRA_INSTANCE=https://schen5.jira-dev.com ATLASPACK_VCS_READS=false yarn start jira-spa'
+
 list() {
- yarn start jira-spa-issue-navigator --routes=software-list,business-list,issue-navigator-core,issue-navigator-classic --no-lazy
+ spa --routes=software-list,business-list,issue-navigator-core,issue-navigator-classic --no-lazy --no-https
 }
 
 list-no-local() {
- yarn start jira-spa --routes=software-list --no-lazy --no-local
+ spa --routes=software-list,business-list,issue-navigator-core,issue-navigator-classic --no-lazy --no-local --no-https
 }
 
 
 timeline() {
- yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy
+ spa --routes=software-timeline,business-timeline --no-lazy
 }
 
 timeline-no-local() {
- yarn start jira-spa-issue-navigator --routes=software-timeline,business-timeline --no-lazy --no-local
+ spa --routes=software-timeline,business-timeline --no-lazy --no-local
 }
 
 list-local() {
- yarn start jira-spa-issue-navigator --routes=software-list --no-lazy --no-local
+ spa --routes=software-list --no-lazy --no-local
 }
 
 nin() {
- yarn start jira-spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
+ spa --routes=software-issue-navigator,issue-navigator-classic,global-issue-navigator --no-lazy
 }
 
 calendar() {
- yarn start jira-spa --routes=software-calendar,business-calendar --no-lazy
+ spa --routes=software-calendar,business-calendar --no-lazy
 }
 
 intellij() {
