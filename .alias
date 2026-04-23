@@ -77,11 +77,11 @@ list-no-local() {
 
 
 timeline() {
- spa --routes=software-timeline,business-timeline --no-lazy
+ spa --routes=software-timeline,business-timeline --no-lazy --no-https
 }
 
 timeline-no-local() {
- spa --routes=software-timeline,business-timeline --no-lazy --no-local
+ spa --routes=software-timeline,business-timeline --no-lazy --no-local --no-https
 }
 
 list-local() {
